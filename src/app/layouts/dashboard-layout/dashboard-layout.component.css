@@ -1,0 +1,28 @@
+.mat-drawer {
+  border-radius: 0 !important;
+}
+
+>>> .mat-drawer-content {
+  padding: 10px !important;
+  border-top-right-radius: 30px !important;
+  background-color: #e5e7eb !important;
+}
+
+.custom-toolbar {
+  background: white; /* Text color */
+  height: 70px;
+}
+
+.mat-drawer {
+  background-color: white !important;
+}
+
+.mat-drawer-container {
+  height: calc(100vh - 70px);
+}
+
+.mat-drawer {
+  width: 20%;
+}
+
+

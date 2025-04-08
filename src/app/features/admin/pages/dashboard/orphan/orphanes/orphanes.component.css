@@ -1,0 +1,22 @@
+>>> .p-datatable-header {
+  border-top-left-radius: 19px !important;
+  border-top-right-radius: 19px !important;
+}
+
+>>> .p-datatable-tbody {
+  border-bottom-left-radius: 19px !important;
+  border-bottom-right-radius: 19px !important;
+  overflow: hidden;
+}
+
+>>> .custom .p-button:first-of-type {
+  background-color: #60a853 !important;
+}
+
+
+
+
+.test {
+  min-height: calc(100vh - 70px);
+
+}

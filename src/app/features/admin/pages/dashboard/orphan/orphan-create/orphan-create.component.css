@@ -1,0 +1,29 @@
+>>> .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white !important;
+}
+
+>>> .mat-calendar {
+  background-color: white;
+}
+
+>>> .back .p-button {
+  background: white !important;
+  color: black !important;
+}
+
+>>> .pic img {
+  border-radius: 180%;
+  height: 150px;
+}
+
+
+>>> .example-form .p-component {
+  width: 100%;
+}
+
+>>> .mdc-list-item__primary-text {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+

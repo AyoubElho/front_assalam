@@ -1,0 +1,27 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+  @for (guard of listGuardians; track guard.id) {
+    <div
+      class="relative flex flex-col  items-center p-4 w-full bg-white rounded-3xl overflow-hidden shadow hover:shadow-md"
+      style="min-height: 160px">
+      <!-- Option 1: Background Image -->
+      <div class="h-32 w-32 bg-gray-100 rounded-full bg-cover bg-center"
+           [style.background-image]="'url(' + guard.pic_guardian + ')'">
+      </div>
+
+      <!-- OR Option 2: img Tag -->
+      <!-- <div class="h-32 bg-gray-100 rounded-lg overflow-hidden">
+        <img [src]="guard.pic_guardian" alt="Guardian" class="w-full h-full object-cover">
+      </div> -->
+
+      <h2 class="mt-2 text-gray-800 text-sm font-semibold line-clamp-1">
+        {{ guard.name }}
+      </h2>
+
+      <p class="mt-2 text-gray-800 text-sm">$12.99</p>
+
+      <button class="mt-4 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md w-full">
+        المزيد
+      </button>
+    </div>
+  }
+</div>

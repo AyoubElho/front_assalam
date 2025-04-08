@@ -1,0 +1,86 @@
+<section class="w-full test" dir="rtl">
+
+  <p-table
+    [value]="list"
+    [paginator]="true"
+    #dt2
+    [globalFilterFields]="['full_name']"
+    [rows]="5"
+    selectionMode="single"
+    [tableStyle]="{'min-width': '60rem'}"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+
+
+    {{ list|json }}
+
+    <ng-template #caption>
+      <th style="width: 100%;" class="custom flex gap-1 justify-between items-center">
+        <div>
+          <p-iconfield iconPosition="left" class="ml-auto">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              pInputText
+              type="text"
+              (input)="dt2.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="ابحث بالكلمة المفتاحية"
+            />
+          </p-iconfield>
+        </div>
+        <p-button routerLink="/admin/orphan/create" class="add-new-button" icon="pi pi-plus" label="اضف يتيم جديد"/>
+      </th>
+
+    </ng-template>
+
+    <ng-template #header>
+
+      <tr>
+        <th pSortableColumn="الصورة" style="width:10%">
+          الصورة
+        </th>
+        <th pSortableColumn="full_name" style="width:20%">
+          الاسم الكامل
+          <p-sortIcon field="full_name"/>
+        </th>
+        <th pSortableColumn="birth_date" style="width:10%">
+          العمر
+          <p-sortIcon field="birth_date"/>
+        </th>
+        <th pSortableColumn="guardian_name" style="width:20%">
+          الكافل
+          <p-sortIcon field="guardian_name"/>
+        </th>
+        <th pSortableColumn="mother_name" style="width:20%">
+          اسم الام
+          <p-sortIcon field="mother_name"/>
+        </th>
+        <th style="width:20%">
+        </th>
+      </tr>
+
+    </ng-template>
+    <ng-template #body let-orphan>
+      <tr>
+        <td>
+          <p-avatar image="{{orphan.pic_orphan}}"
+                    class="bg-cover"
+                    size="large" shape="circle"/>
+        </td>
+        <td>
+          {{ orphan.full_name }}
+        </td>
+        <td>{{ getAge(orphan.birth_date) }} سنة</td>
+        <td>
+        </td>
+        <td>{{ orphan.mother_name }}</td>
+        <td>
+          <p-button [routerLink]="['/admin/orphan', orphan.id]" [rounded]="true" severity="secondary" [text]="true"
+                    [raised]="true"
+                    icon="pi pi-arrow-left"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>

@@ -1,4 +1,4 @@
->>> .p-ripple {
+::ng-deep .p-ripple {
   pointer-events: auto !important;
   z-index: 9999 !important;
 }
@@ -7,18 +7,18 @@
   margin-bottom: 1rem;
 }
 
->>> .mat-mdc-unelevated-button:not(:disabled) {
+::ng-deep .mat-mdc-unelevated-button:not(:disabled) {
   background-color: #2a3236;
 }
 
->>> .p-galleria-nav-button {
+::ng-deep .p-galleria-nav-button {
   background-color: black !important;
   width: 35px;
   z-index: 999999;
   height: 35px;
 }
 
->>> .p-galleria-nav-button:hover {
+::ng-deep .p-galleria-nav-button:hover {
   background-color: #3b4246 !important;
 }
 
@@ -27,12 +27,12 @@
   transition: all 0.3s ease;
 }
 
->>> .mat-icon {
+::ng-deep .mat-icon {
   font-size: 16px !important;
 }
 
 
->>> .p-galleria-indicator-active .p-galleria-indicator-button {
+::ng-deep .p-galleria-indicator-active .p-galleria-indicator-button {
   background-color: black !important;
 }
 

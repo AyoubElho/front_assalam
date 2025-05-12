@@ -1,4 +1,4 @@
->>> .p-datepicker {
+::ng-deep .p-datepicker {
   width: 100% !important;
 }
 ::ng-deep .back .p-button {

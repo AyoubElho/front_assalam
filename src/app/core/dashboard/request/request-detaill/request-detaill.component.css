@@ -5,7 +5,7 @@
   gap: 15px;
 }
 
->>> .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+::ng-deep .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
   border-color: #22c55e !important;
   background-color: #22c55e !important;
 }

@@ -1,0 +1,168 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8" dir="rtl">
+  <!-- Header Section (same as your original) -->
+  <div class="max-w-6xl mx-auto mb-12 px-4">
+    <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 sm:gap-6">
+      <!-- Search bar -->
+      <div class="w-full sm:w-96">
+        <div class="relative">
+          <mat-icon
+            class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-lg pointer-events-none"
+            style="transform: translateY(-50%); top: 50%;"
+          >
+            search
+          </mat-icon>
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            placeholder="ابحث عن المقالات..."
+            class="w-full pr-12 pl-4 py-3.5 bg-white border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-300 hover:border-gray-400 focus:shadow-md"
+          />
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex gap-4 flex-wrap sm:flex-nowrap">
+        <button
+          (click)="openCreateCategoryDialog()"
+          class="flex items-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow transition duration-200"
+        >
+          <mat-icon>category</mat-icon>
+          <span>صنف جديد</span>
+        </button>
+
+        <button routerLink="/dashboard/post/create"
+                class="flex items-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow transition duration-200"
+        >
+          <mat-icon>post_add</mat-icon>
+          <span>مقال جديد</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+            الصورة
+          </th>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+            العنوان
+          </th>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+            المحتوى
+          </th>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+            التصنيف
+          </th>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تاريخ
+            الإنشاء
+          </th>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+            الإجراءات
+          </th>
+        </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let post of posts" class="hover:bg-gray-50 transition-colors duration-150">
+          <!-- Image Column -->
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="flex-shrink-0 h-10 w-10">
+              <img *ngIf="post.images.length > 0"
+                   [src]="environment.apiURL+'/storage/'+post.images[0].image_path"
+                   alt="{{ post.title }}"
+                   class="h-10 w-10 rounded-full object-cover">
+            </div>
+          </td>
+
+          <!-- Title Column -->
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="text-sm font-medium text-gray-900">{{ post.title }}</div>
+          </td>
+
+          <!-- Content Column -->
+          <td class="px-6 py-4 max-w-xs">
+            <div class="text-sm text-gray-500 truncate">{{ post.content | stripHtml | slice:0:50 }}...</div>
+          </td>
+
+          <!-- Category Column -->
+          <td class="px-6 py-4 whitespace-nowrap">
+              <span *ngIf="post.category"
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                {{ post.category.name }}
+              </span>
+          </td>
+
+          <!-- Date Column -->
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            {{ post.created_at | date:'dd/MM/yyyy' }}
+          </td>
+
+          <!-- Actions Column -->
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+            <div class="flex gap-3">
+              <button routerLink="/post/detail/{{ post.id }}" class="text-blue-600 hover:text-blue-900 transition">
+                التفاصيل
+              </button>
+              <button (click)="onEditPost(post.id)" class="text-yellow-600 hover:text-yellow-900 transition">
+                تعديل
+              </button>
+              <button (click)="onDeletePost(post.id)" class="text-red-600 hover:text-red-900 transition">
+                حذف
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination (same as your original) -->
+    <div class="px-6 py-4 border-t border-gray-200">
+      <div class="flex justify-center">
+        <nav class="flex items-center gap-2">
+          <button
+            (click)="goToPreviousPage()"
+            [disabled]="currentPage === 1"
+            class="px-2 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+
+          <div class="flex gap-1">
+            <span *ngIf="currentPage > 2" class="px-4 py-2">...</span>
+            <span *ngIf="currentPage > 1"
+                  class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer">
+              {{ currentPage - 1 }}
+            </span>
+            <span class="px-4 py-2 border border-blue-500 bg-blue-50 text-blue-600 rounded-md font-medium">
+              {{ currentPage }}
+            </span>
+            <span *ngIf="currentPage < lastPage"
+                  class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer">
+              {{ currentPage + 1 }}
+            </span>
+            <span *ngIf="currentPage < lastPage - 1" class="px-4 py-2">...</span>
+          </div>
+
+          <button
+            (click)="goToNextPage()"
+            [disabled]="currentPage === lastPage"
+            class="px-2 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

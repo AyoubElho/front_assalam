@@ -1,0 +1,422 @@
+<section dir="rtl" class="w-full min-h-[calc(100vh-80px)] py-4 bg-gray-100">
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()"
+        class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg space-y-6">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">تقديم طلب جديد</h1>
+
+    <h1 class="text-xl p-1 w-full text-center text-white bg-black rounded-full">معلومات الزوجة</h1>
+    <div class="space-y-2">
+      <label for="fullName" class="block text-gray-700 font-semibold">الاسم الكامل</label>
+      <input id="fullName" formControlName="name" type="text"
+             placeholder="أدخل الاسم الكامل"
+             class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+      <div
+        *ngIf="requestForm.get('fullName')?.invalid && (requestForm.get('fullName')?.dirty || requestForm.get('fullName')?.touched)"
+        class="text-red-500 text-sm">
+        <div *ngIf="requestForm.get('fullName')?.errors?.['required']">الاسم الكامل مطلوب</div>
+      </div>
+    </div>
+
+    <!-- رقم البطاقة الوطنية -->
+    <div class="space-y-2">
+      <label for="cin" class="block text-gray-700 font-semibold">رقم البطاقة الوطنية</label>
+      <input id="cin" formControlName="cin" type="text"
+             placeholder="أدخل رقم البطاقة الوطنية"
+             class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+      <div *ngIf="requestForm.get('cin')?.invalid && (requestForm.get('cin')?.dirty || requestForm.get('cin')?.touched)"
+           class="text-red-500 text-sm">
+        <div *ngIf="requestForm.get('cin')?.errors?.['required']">رقم البطاقة الوطنية مطلوب</div>
+        <div *ngIf="requestForm.get('cin')?.errors?.['pattern']">يجب أن يكون رقم البطاقة الوطنية صحيحاً</div>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label for="phone" class="block text-gray-700 font-semibold">رقم الهاتف</label>
+      <div class="flex" dir="ltr">
+    <span
+      class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-200 text-gray-700 text-sm">
+      +212
+    </span>
+        <input id="phone" formControlName="phone" type="text"
+               placeholder="6XXXXXXXX"
+               class="flex-1 bg-gray-100 text-sm text-gray-700 rounded-r-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+      </div>
+      <div
+        *ngIf="requestForm.get('phone')?.invalid && (requestForm.get('phone')?.dirty || requestForm.get('phone')?.touched)"
+        class="text-red-500 text-sm">
+        <div *ngIf="requestForm.get('phone')?.errors?.['required']">رقم الهاتف مطلوب</div>
+        <div *ngIf="requestForm.get('phone')?.errors?.['pattern']">
+          رقم الهاتف غير صالح، أدخل 9 أرقام أو 10 أرقام تبدأ بـ 0
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="space-y-2">
+      <label class="block text-gray-700 font-semibold">تاريخ الازدياد</label>
+      <p-datepicker
+        class="!w-full"
+        formControlName="birth_date"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        placeholder="اختَر تاريخ الازدياد"
+        inputId="icondisplay">
+      </p-datepicker>
+      <div
+        *ngIf="requestForm.get('birth_date')?.invalid && (requestForm.get('birth_date')?.dirty || requestForm.get('birth_date')?.touched)"
+        class="text-red-500 text-sm">
+        <div *ngIf="requestForm.get('birth_date')?.errors?.['required']">تاريخ الازدياد مطلوب</div>
+      </div>
+    </div>
+
+    <div class="w-full mt-4 space-y-2">
+      <label for="cin" class="block text-gray-700 font-semibold">نوع الطلب</label>
+      <div class="relative">
+        <select
+          formControlName="application_type"
+          (change)="onOptionChange($event)"
+          class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+          <option value="" disabled>اختر نوع الطلب</option>
+          <option value="يتيم_أرملة">كفالة اليتيم والارملة</option>
+          <option value="أسرة_معوزة">كفالة الاسرة المعوزة</option>
+        </select>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor"
+             class="h-5 w-5 absolute top-2.5 left-2.5 text-slate-700 pointer-events-none">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
+        </svg>
+      </div>
+    </div>
+
+
+
+    @if (requestForm.controls['application_type'].value === 'يتيم_أرملة' || requestForm.controls['application_type'].value === 'أسرة_معوزة') {
+      @if (requestForm.controls['application_type'].value !== 'يتيم_أرملة') {
+        <h1 class="text-xl p-1 w-full text-center text-white bg-black rounded-full">معلومات الزوج</h1>
+
+        <!-- الاسم الكامل للزوج -->
+        <div class="space-y-2">
+          <label for="husbandName" class="block text-gray-700 font-semibold">الاسم الكامل للزوج</label>
+          <input id="husbandName" formControlName="husband_name" type="text"
+                 placeholder="أدخل الاسم الكامل للزوج"
+                 class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+          <div
+            *ngIf="requestForm.get('husband_name')?.invalid && (requestForm.get('husband_name')?.touched || requestForm.get('husband_name')?.dirty)"
+            class="text-red-500 text-sm">
+            <div *ngIf="requestForm.get('husband_name')?.errors?.['required']">الاسم الكامل للزوج مطلوب</div>
+          </div>
+        </div>
+
+        <!-- رقم البطاقة الوطنية للزوج -->
+        <div class="space-y-2">
+          <label for="husbandCin" class="block text-gray-700 font-semibold">رقم البطاقة الوطنية للزوج</label>
+          <input id="husbandCin" formControlName="husband_cin" type="text"
+                 placeholder="أدخل رقم البطاقة الوطنية للزوج"
+                 class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+          <div
+            *ngIf="requestForm.get('husband_cin')?.invalid && (requestForm.get('husband_cin')?.touched || requestForm.get('husband_cin')?.dirty)"
+            class="text-red-500 text-sm">
+            <div *ngIf="requestForm.get('husband_cin')?.errors?.['required']">رقم البطاقة الوطنية مطلوب</div>
+            <div *ngIf="requestForm.get('husband_cin')?.errors?.['pattern']">رقم غير صحيح</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-gray-700 font-semibold">تاريخ ازدياد الزوج</label>
+          <p-datepicker
+            class="!w-full"
+            formControlName="husband_birth_date"
+            [iconDisplay]="'input'"
+            placeholder="اختَر تاريخ الازدياد"
+            [showIcon]="true"
+            inputId="icondisplay">
+          </p-datepicker>
+          <div
+            *ngIf="requestForm.get('husband_birth_date')?.invalid && (requestForm.get('husband_birth_date')?.dirty || requestForm.get('husband_birth_date')?.touched)"
+            class="text-red-500 text-sm">
+            <div *ngIf="requestForm.get('husband_birth_date')?.errors?.['required']">تاريخ ازدياد الزوج مطلوب</div>
+          </div>
+        </div>
+
+        <!-- رقم الهاتف للزوج -->
+        <div class="space-y-2">
+          <label for="husbandPhone" class="block text-gray-700 font-semibold">رقم الهاتف للزوج</label>
+          <div class="flex" dir="ltr">
+    <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-200 text-gray-700 text-sm">
+      +212
+    </span>
+            <input id="husbandPhone" formControlName="husband_phone" type="text"
+                   placeholder="6XXXXXXXX"
+                   class="flex-1 bg-gray-100 text-sm text-gray-700 rounded-r-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+          </div>
+          <div
+            *ngIf="requestForm.get('husband_phone')?.invalid && (requestForm.get('husband_phone')?.touched || requestForm.get('husband_phone')?.dirty)"
+            class="text-red-500 text-sm">
+            <div *ngIf="requestForm.get('husband_phone')?.errors?.['required']">رقم الهاتف مطلوب</div>
+            <div *ngIf="requestForm.get('husband_phone')?.errors?.['pattern']">رقم الهاتف غير صالح، أدخل 9 أرقام أو 10 أرقام تبدأ بـ 0</div>
+          </div>
+        </div>
+
+
+        <div class="space-y-2">
+          <label class="block text-gray-700 font-semibold">شهادة طبية (اداكان احد الزوجين يعاني من مرض مزمن)</label>
+          <input type="file" formControlName="medicalCertificate"
+                 (change)="onFileChange($event, 'medicalCertificate')"
+                 class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+          @if (requestForm.get('medicalCertificate')?.invalid && requestForm.get('medicalCertificate')?.touched) {
+            <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+          }
+        </div>
+        <div class="space-y-2">
+          <label class="block text-gray-700 font-semibold">عقد الزواج</label>
+          <input type="file" formControlName="marriageCertificate"
+                 (change)="onFileChange($event, 'marriageCertificate')"
+                 class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+          @if (requestForm.get('marriageCertificate')?.invalid && requestForm.get('marriageCertificate')?.touched) {
+            <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+          }
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-gray-700 font-semibold">صورة للزوجة والزوج</label>
+          <input type="file" formControlName="personalPhoto" (change)="onFileChange($event, 'personalPhoto')"
+                 class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+          @if (requestForm.get('personalPhoto')?.invalid && requestForm.get('personalPhoto')?.touched) {
+            <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+          }
+        </div>
+        <div class="space-y-2">
+          <label class="block text-gray-700 font-semibold">صورة جماعية للعائلة</label>
+          <input type="file" formControlName="familyPhoto" (change)="onFileChange($event, 'familyPhoto')"
+                 class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+          @if (requestForm.get('familyPhoto')?.invalid && requestForm.get('familyPhoto')?.touched) {
+            <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+          }
+        </div>
+
+      }
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">طلب الترشيح للكفالة</label>
+        <input type="file" formControlName="applicationRequest" (change)="onFileChange($event, 'applicationRequest')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('applicationRequest')?.invalid && requestForm.get('applicationRequest')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+      <div class="space-y-2">
+        <label
+          class="block text-gray-700 font-semibold">
+          <div>
+            {{ requestForm.controls['application_type'].value === 'يتيم_أرملة' ? 'نسخة من البطاقة الوطنية للارملة' : 'نسخة من البطاقة الوطنية للزوجين' }}
+          </div>
+        </label>
+        <input type="file" formControlName="nationalCard" (change)="onFileChange($event, 'nationalCard')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('nationalCard')?.invalid && requestForm.get('nationalCard')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">نسخة من الحالة المدنية (نسخة كاملة)</label>
+        <input type="file" formControlName="civilStatus" (change)="onFileChange($event, 'civilStatus')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300
+               file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4
+                file:cursor-pointer
+               hover:file:bg-gray-700"/>
+        @if (requestForm.get('civilStatus')?.invalid && requestForm.get('civilStatus')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">
+          {{ requestForm.controls['application_type'].value === 'يتيم_أرملة' ? 'عقد ازدياد الأم والايتام اقل من 13 سنة' : 'عقد ازدياد الزوجين' }}
+        </label>
+        <input type="file" formControlName="birthCertificate"
+               (change)="onFileChange($event, 'birthCertificate')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('birthCertificate')?.invalid && requestForm.get('birthCertificate')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+
+
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">شهادة حسن السيرة والسلوك او السجل
+          العدلي {{ requestForm.controls['application_type'].value === 'يتيم_أرملة' ? 'للام' : 'للزوجين' }}</label>
+        <input type="file" formControlName="goodConduct"
+               (change)="onFileChange($event, 'goodConduct')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('goodConduct')?.invalid && requestForm.get('goodConduct')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">شهادة الحياة الجماعية</label>
+        <input type="file" formControlName="lifeCertificate"
+               (change)="onFileChange($event, 'lifeCertificate')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('lifeCertificate')?.invalid && requestForm.get('lifeCertificate')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+
+    }
+    @if (requestForm.controls['application_type'].value === 'يتيم_أرملة') {
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">
+          شهادة وفاة الأب
+        </label>
+        <input type="file" formControlName="deathCertificate"
+               (change)="onFileChange($event, 'deathCertificate')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('deathCertificate')?.invalid && requestForm.get('deathCertificate')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">صورة صغيرة للأم والأيتام الاقل من 13 سنة</label>
+        <input type="file" formControlName="personalPhoto" (change)="onFileChange($event, 'personalPhoto')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('personalPhoto')?.invalid && requestForm.get('personalPhoto')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">صورة جماعية للأم والأيتام الاقل من 13 سنة </label>
+        <input type="file" formControlName="familyPhoto" (change)="onFileChange($event, 'familyPhoto')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('familyPhoto')?.invalid && requestForm.get('familyPhoto')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">شهادة عدم الزواج</label>
+        <input type="file" formControlName="nonMarriageCertificate"
+               (change)="onFileChange($event, 'nonMarriageCertificate')"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 file:bg-gray-800 file:text-white file:rounded file:px-4 file:py-2 file:border-0 file:ml-4 file:cursor-pointer hover:file:bg-gray-700"/>
+        @if (requestForm.get('nonMarriageCertificate')?.invalid && requestForm.get('nonMarriageCertificate')?.touched) {
+          <p class="text-red-500 text-sm">هذا الحقل مطلوب</p>
+        }
+      </div>
+
+      <div *ngIf="requestForm.controls['application_type'].value === 'يتيم_أرملة'"
+           class="bg-white rounded-xl shadow-md p-6 space-y-6 border border-gray-100 mt-6">
+        <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200 flex items-center">
+          <mat-icon class="mr-2 text-pink-500" style="font-size: 24px;">family_restroom</mat-icon>
+          معلومات الأيتام
+        </h2>
+
+        <div formArrayName="orphans" *ngFor="let orphan of orphans.controls; let i = index" class="space-y-4">
+          <div [formGroupName]="i"
+               class="bg-pink-50 border border-pink-100 rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow relative">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-lg font-semibold text-gray-700 flex items-center">
+                <mat-icon class="mr-2 text-pink-400" style="font-size: 20px;">child_friendly</mat-icon>
+                اليتيم {{ i + 1 }}
+              </h3>
+              <button
+                type="button"
+                (click)="removeOrphan(i)"
+                class="text-pink-600 hover:text-pink-800 text-sm font-medium flex items-center"
+                *ngIf="orphans.controls.length > 1"
+              >
+                <mat-icon class="mr-1" style="font-size: 18px;">delete</mat-icon>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <!-- Orphan Name Field -->
+              <div class="flex flex-col">
+                <label class="block text-sm font-medium text-gray-600 mb-2">اسم اليتيم <span
+                  class="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  formControlName="full_name"
+                  placeholder="أدخل اسم اليتيم"
+                  class="w-full p-3 bg-white text-sm text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 transition shadow-sm placeholder:text-gray-400"
+                  [ngClass]="{'border-red-500': orphan.get('full_name')?.invalid && (orphan.get('full_name')?.touched || orphan.get('full_name')?.dirty)}"
+                />
+                <div
+                  *ngIf="orphan.get('full_name')?.invalid && (orphan.get('full_name')?.touched || orphan.get('full_name')?.dirty)"
+                  class="text-red-500 text-xs mt-1 flex items-start">
+                  <mat-icon class="mr-1" style="font-size: 14px;">error_outline</mat-icon>
+                  <div>
+                    <div *ngIf="orphan.get('full_name')?.errors?.['required']">اسم اليتيم مطلوب</div>
+                    <div *ngIf="orphan.get('full_name')?.errors?.['minlength']">يجب أن يكون الاسم على الأقل 3 أحرف</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Birth Date Field -->
+              <div class="flex flex-col">
+                <label class="block text-sm font-medium text-gray-600 mb-2">تاريخ الازدياد <span
+                  class="text-red-500">*</span></label>
+                <p-datepicker
+                  class="!w-full"
+                  formControlName="birth_date"
+                  placeholder="اختَر تاريخ الازدياد"
+                  [iconDisplay]="'input'"
+                  [showIcon]="true"
+                  [ngClass]="{'border-red-500': orphan.get('birth_date')?.invalid && (orphan.get('birth_date')?.touched || orphan.get('birth_date')?.dirty)}"
+                  inputId="icondisplay">
+                </p-datepicker>
+                <div
+                  *ngIf="orphan.get('birth_date')?.invalid && (orphan.get('birth_date')?.touched || orphan.get('birth_date')?.dirty)"
+                  class="text-red-500 text-xs mt-1 flex items-start">
+                  <mat-icon class="mr-1" style="font-size: 14px;">error_outline</mat-icon>
+                  <div>
+                    <div *ngIf="orphan.get('birth_date')?.errors?.['required']">تاريخ الازدياد مطلوب</div>
+                    <div *ngIf="orphan.get('birth_date')?.errors?.['futureDate']">لا يمكن أن يكون التاريخ في المستقبل
+                    </div>
+                    <div *ngIf="orphan.get('birth_date')?.errors?.['underAge']">اليتيم يجب أن يكون عمره أقل من 13 سنة
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Is Studying Checkbox -->
+              <div class="flex flex-col justify-center">
+                <label class="block text-sm font-medium text-gray-600 mb-2">هل يدرس؟</label>
+                <mat-checkbox
+                  formControlName="is_studying"
+                  color="primary"
+                  class="transform scale-110 -ml-2"
+                >
+                  <span class="text-sm text-gray-600 ml-2">{{ orphan.get('is_studying')?.value ? 'نعم' : 'لا' }}</span>
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="orphans.errors?.['noStudyingOrphan'] && orphans.touched"
+             class="text-red-600 text-sm font-semibold mt-2 p-2 bg-red-50 border-r-4 border-red-500 rounded">
+          يجب أن يكون هناك يتيم واحد على الأقل يتابع دراسته
+        </div>
+        <!-- Add Orphan Button -->
+        <button
+          type="button"
+          (click)="addOrphan()"
+          class="flex items-center text-pink-600 hover:text-pink-800 text-sm font-semibold p-2 rounded-lg hover:bg-pink-50 transition-colors"
+        >
+          <mat-icon class="mr-2 text-pink-600 bg-pink-100 p-1 rounded-full" style="font-size: 18px;">add</mat-icon>
+          إضافة يتيم آخر
+        </button>
+      </div>
+    }
+
+
+
+    <!-- زر الإرسال -->
+    <div class="pt-6">
+      <button type="submit"
+              class="w-full bg-pink-700 hover:bg-pink-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all disabled:bg-gray-400 disabled:cursor-not-allowed">
+        إرسال الطلب
+      </button>
+    </div>
+  </form>
+</section>

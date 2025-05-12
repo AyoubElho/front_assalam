@@ -1,0 +1,73 @@
+<div class="w-full h-full flex flex-col justify-evenly px-5">
+  <div class="flex gap-5">
+    <!-- Orphans -->
+    <div class="w-1/4 h-52 rounded-3xl bg-white flex flex-col items-center justify-center shadow-lg cursor-pointer"
+         routerLink="/dashboard/orphans">
+      <h2 class="text-lg font-medium text-gray-600 mb-2">عدد الأيتام</h2>
+      <mat-icon class="!text-6xl !w-20 !h-20 !flex !items-center !justify-center text-green-600">person</mat-icon>
+      <h1 class="text-2xl font-semibold text-gray-700">{{ countOrphan }} </h1>
+    </div>
+    <!-- Widows -->
+    <div class="w-1/4 h-52 rounded-3xl bg-white flex flex-col items-center justify-center shadow-lg cursor-pointer"
+         routerLink="/dashboard/widows">
+      <h2 class="text-lg font-medium text-gray-600 mb-2">عدد الأرامل</h2>
+      <mat-icon class="!text-6xl !w-20 !h-20 !flex !items-center !justify-center text-green-600">face_3</mat-icon>
+      <h1 class="text-2xl font-semibold text-gray-700">{{ countWidow }}</h1>
+    </div>
+    <!-- destitutes -->
+    <div class="w-1/4 h-52 rounded-3xl bg-white flex flex-col items-center justify-center shadow-lg">
+      <h2 class="text-lg font-medium text-gray-600 mb-2">عدد المعوزين</h2>
+      <mat-icon class="!text-6xl !w-20 !h-20 !flex !items-center !justify-center text-green-600">face</mat-icon>
+      <h1 class="text-2xl font-semibold text-gray-700">{{ countWidow }}</h1>
+    </div>
+    <!-- Total Amount -->
+    <div class="w-1/4 h-52 rounded-3xl bg-white flex flex-col items-center justify-center shadow-lg">
+      <h2 class="text-lg font-medium text-gray-600 mb-2">المبلغ الإجمالي</h2>
+      <mat-icon class="!text-6xl !w-20 !h-20 !flex !items-center !justify-center text-green-600">attach_money</mat-icon>
+      <h1 class="text-2xl font-semibold text-gray-700">{{ totalAmount }}</h1>
+    </div>
+
+  </div>
+
+  <!-- Charts Section -->
+  <div class="flex justify-between gap-5">
+
+    <!-- Donations by Month Chart -->
+    <div class="bg-white rounded-xl shadow-md p-5 flex flex-col items-center w-1/2">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">التبرعات حسب الشهر</h2>
+      <ngx-charts-bar-vertical
+        dir="ltr"
+        [view]="[500, 300]"
+        [scheme]="'night'"
+        [results]="donationsPerMonth"
+        [gradient]="false"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxisLabel]="'الشهر'"
+        [yAxisLabel]="'التبرعات (درهم)'"
+        [roundEdges]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <!-- Requests by Status Chart -->
+    <div class="bg-white rounded-xl shadow-md p-5 flex flex-col items-center w-1/2">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">الطلبات حسب الحالة</h2>
+      <ngx-charts-pie-chart
+        dir="ltr"
+        [results]="requestsByStatus"
+        [scheme]="'night'"
+        [view]="[500, 300]"
+        [legend]="true"
+        [labels]="true"
+        [gradient]="true">
+      </ngx-charts-pie-chart>
+    </div>
+
+  </div>
+
+
+
+</div>

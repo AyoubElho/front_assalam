@@ -1,0 +1,4 @@
+::ng-deep .back .p-button {
+  background: white !important;
+  color: black !important;
+}

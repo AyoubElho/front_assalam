@@ -1,0 +1,254 @@
+<header dir="rtl" class="bg-white shadow-md h-20 flex items-center px-6 lg:px-16">
+  <div class="flex items-center justify-between w-full">
+
+    <!-- Logo -->
+    <a href="#" class="flex items-center">
+      <img src="/download.png" alt="logo" class="w-20 sm:w-24"/>
+    </a>
+
+    <!-- Desktop Menu -->
+    <nav class="hidden sm:flex items-center gap-6 text-gray-700 text-sm">
+
+      <!-- Common Links -->
+      <a routerLink="/" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
+         class="hover:text-blue-600">
+        الرئيسية
+      </a>
+      <a routerLink="/about" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
+         class="hover:text-blue-600">
+        من نحن
+      </a>
+      <a routerLink="/contact" routerLinkActive="text-blue-600 font-semibold"
+         [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600">
+        اتصل بنا
+      </a>
+      <a routerLink="/posts" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
+         class="hover:text-blue-600">
+        أخبار المؤسسة
+      </a>
+
+
+      <!-- Authenticated Users -->
+      @if (isLoggedIn()) {
+
+
+        @if (isAdminOrWriterOrSuper()) {
+          <a routerLink="/dashboard" routerLinkActive="text-blue-600 font-semibold"
+             [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600">
+            لوحة التحكم
+          </a>
+          <a routerLink="/post/create" routerLinkActive="text-blue-600 font-semibold"
+             [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600">
+            إنشاء خبر جديد
+          </a>
+        }
+
+        @if (!isAdminOrWriterOrSuper()) {
+          <a routerLink="/request" routerLinkActive="text-blue-600 font-semibold"
+             [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600">
+            تقديم طلب
+          </a>
+
+          <!-- Donate Button -->
+          <button
+            (click)="showDialog()"
+            class="bg-gradient-to-r from-red-600 to-red-700 text-white font-bold px-6 py-2 rounded-full shadow-lg hover:from-red-700 hover:to-red-800 transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            تبرع الآن
+          </button>
+
+        }
+
+        <!-- User Avatar (don't touch this part) -->
+        <div class="flex items-center gap-2">
+          <p-menu #userMenu [model]="items" [popup]="true"></p-menu>
+          @if (user.pic != null) {
+            <p-avatar image="{{user.pic}}" class="mr-2"
+                      (click)="userMenu.toggle($event)"
+                      size="large" shape="circle"/>
+          } @else {
+            <p-avatar icon="pi pi-user" class="mr-2"
+                      (click)="userMenu.toggle($event)"
+                      size="large" shape="circle"/>
+          }
+        </div>
+      }
+
+      <!-- Guest Links -->
+      <ng-container *ngIf="!isLoggedIn()">
+        <a routerLink="/login">
+          <button class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 transition">
+            تسجيل الدخول
+          </button>
+        </a>
+        <a routerLink="/register">
+          <button class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition">
+            إنشاء حساب
+          </button>
+        </a>
+      </ng-container>
+
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="sm:hidden p-2 border rounded text-gray-700" (click)="menuOpen = !menuOpen">
+      <svg *ngIf="!menuOpen" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor">
+        <line x1="4" x2="20" y1="6" y2="6"/>
+        <line x1="4" x2="20" y1="12" y2="12"/>
+        <line x1="4" x2="20" y1="18" y2="18"/>
+      </svg>
+      <svg *ngIf="menuOpen" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor">
+        <path d="M6 6l12 12M6 18L18 6"/>
+      </svg>
+    </button>
+
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="menuOpen"
+       class="sm:hidden absolute top-20 right-0 bg-white w-full shadow-lg z-50 px-4 py-2 flex flex-col gap-2">
+
+    <!-- Common Links -->
+    <a routerLink="/" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
+       class="block py-2 px-4 hover:bg-gray-100 rounded text-right">
+      الرئيسية
+    </a>
+
+    <a routerLink="/about" routerLinkActive="text-blue-600 font-semibold"
+       [routerLinkActiveOptions]="{ exact: true }"
+       class="block py-2 px-4 hover:bg-gray-100 rounded text-right">
+      من نحن
+    </a>
+
+    <a routerLink="/contact" routerLinkActive="text-blue-600 font-semibold"
+       [routerLinkActiveOptions]="{ exact: true }"
+       class="block py-2 px-4 hover:bg-gray-100 rounded text-right">
+      اتصل بنا
+    </a>
+
+    <a routerLink="/posts" routerLinkActive="text-blue-600 font-semibold"
+       [routerLinkActiveOptions]="{ exact: true }"
+       class="block py-2 px-4 hover:bg-gray-100 rounded text-right">
+      أخبار المؤسسة
+    </a>
+
+
+    <!-- Authenticated Users -->
+    @if (isLoggedIn()) {
+
+      @if (isAdminOrWriterOrSuper()) {
+        <a routerLink="/dashboard" routerLinkActive="text-blue-600 font-semibold"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="block py-2 px-4 hover:bg-gray-100 rounded text-right">
+          لوحة التحكم
+        </a>
+
+        <a routerLink="/post/create" routerLinkActive="text-blue-600 font-semibold"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="block py-2 px-4 hover:bg-gray-100 rounded text-right">
+          إنشاء خبر جديد
+        </a>
+      }
+
+      @if (!isAdminOrWriterOrSuper()) {
+
+        <a routerLink="/request" routerLinkActive="text-blue-600 font-semibold"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="block py-2 px-4 hover:bg-gray-100 rounded text-right">
+          تقديم طلب
+        </a>
+      }
+      <!-- Donate Button -->
+      <button (click)="showDialog()"
+              class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition text-center">
+        تبرع الآن
+      </button>
+    }
+
+    <!-- Guest Links -->
+    <ng-container *ngIf="!isLoggedIn()">
+      <a routerLink="/login">
+        <button class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition text-center">
+          تسجيل الدخول
+        </button>
+      </a>
+      <a routerLink="/register">
+        <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition text-center">
+          إنشاء حساب
+        </button>
+      </a>
+    </ng-container>
+
+  </div>
+
+</header>
+
+<section class="h-[calc(100vh-80px)] relative">
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="ball-clip-rotate"
+               [fullScreen]="false">
+    <p style="color: white">جار التحميل...</p>
+  </ngx-spinner>
+  <router-outlet></router-outlet>
+</section>
+
+<div class="card flex justify-center" dir="rtl">
+  <p-dialog header="تبرع الآن" [modal]="true" [(visible)]="visible"
+            [style]="{ width: '30rem', borderRadius: '12px' }"
+            [breakpoints]="{ '960px': '75vw', '640px': '90vw' }">
+    <div class="dialog-content">
+
+      <div class="info-message flex items-start mb-6 p-4 bg-blue-50 rounded-lg">
+        <i class="pi pi-info-circle text-blue-600 mt-1 ml-2"></i>
+        <span class="text-gray-700 text-right">أدخل المبلغ الذي ترغب في التبرع به لدعم قضيتنا</span>
+      </div>
+
+      <form (ngSubmit)="submitDonation()" class="donation-form">
+
+        <div class="field flex items-center gap-4 mb-5">
+          <label for="amount" class="font-semibold w-24 text-right text-gray-700">المبلغ (درهم)</label>
+          <div class="relative flex-1">
+            <input type="number" id="amount" name="amount" [(ngModel)]="donation"
+                   required min="1" placeholder="50"
+                   class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2
+                          focus:ring-primary-500 focus:border-primary-500 focus:outline-none
+                          text-right text-lg transition-all duration-200"/>
+            <span class="absolute left-10 top-4 text-gray-500 text-sm">MAD</span>
+          </div>
+        </div>
+
+        <div class="suggested-amounts flex gap-2 justify-end mb-6">
+          <button type="button" (click)="donation = 50"
+                  class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-blue-100 text-gray-700
+                         transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            50
+          </button>
+          <button type="button" (click)="donation = 100"
+                  class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-blue-100 text-gray-700
+                         transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            100
+          </button>
+          <button type="button" (click)="donation = 200"
+                  class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-blue-100 text-gray-700
+                         transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            200
+          </button>
+          <button type="button" (click)="donation = 500"
+                  class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-blue-100 text-gray-700
+                         transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            500
+          </button>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+          <p-button label="إلغاء" (click)="visible = false"
+                    severity="secondary"
+                    icon="pi pi-times" iconPos="right"/>
+          <p-button label="تأكيد التبرع" type="submit"
+                    severity="contrast"
+                    icon="pi pi-check" iconPos="right" [loading]="loading"/>
+        </div>
+
+      </form>
+    </div>
+  </p-dialog>
+</div>

@@ -1,0 +1,121 @@
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10" dir="rtl">
+    <!-- Searchbar - Enhanced with icon -->
+    <div class="relative max-w-2xl mx-auto">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        placeholder="ابحث عن خبر..."
+        class="w-full p-4 pl-12 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none shadow-sm transition text-right"
+      />
+    </div>
+
+    <!-- Categories - Improved spacing and hover effects -->
+    <div class="flex flex-wrap justify-center gap-2 md:gap-3">
+      <button
+        class="px-5 py-2 rounded-full font-medium transition transform hover:-translate-y-0.5 shadow-md
+         text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+        [ngClass]="{ 'opacity-100': selectedCategory === null, 'opacity-70': selectedCategory !== null }"
+        (click)="loadAllPosts(); selectedCategory = null"
+      >
+        الكل
+      </button>
+
+
+      <button
+        *ngFor="let category of categories"
+        class="px-5 py-2 rounded-full font-medium transition transform hover:-translate-y-0.5 shadow-sm"
+        [ngClass]="{
+    'bg-blue-600 text-white shadow-md': selectedCategory === category.name,
+    'bg-gray-100 text-gray-700 hover:bg-gray-200': selectedCategory !== category.name
+  }"
+        (click)="loadPostsByCategory(category.name); selectedCategory = category.name"
+      >
+        {{ category.name }}
+      </button>
+
+    </div>
+
+    <!-- Posts Grid - Enhanced card design -->
+    <div *ngIf="posts.length === 0" class="flex justify-center items-center py-8">
+      <p class="text-xl text-gray-600">لا توجد منشورات لهذه الفئة</p>
+    </div>
+
+    <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3" *ngIf="posts.length > 0">
+      <div
+        *ngFor="let post of posts"
+        class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-2 flex flex-col border border-gray-100"
+      >
+        <!-- Image with gradient overlay -->
+        <div *ngIf="post.images.length > 0" class="h-60 overflow-hidden relative">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
+          <img
+            [src]="environment.apiURL+'/storage/'+post.images[0].image_path"
+            alt="{{ post.title }}"
+            class="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+            loading="lazy"
+          />
+          <!-- Category badge on image -->
+          <span
+            *ngIf="post.category"
+            class="absolute top-4 right-4 z-20 text-xs font-bold bg-blue-600 text-white px-3 py-1 rounded-full"
+          >
+            {{ post.category.name }}
+          </span>
+        </div>
+
+        <!-- Card content -->
+        <div class="p-6 flex flex-col flex-1 space-y-4">
+          <h3 class="text-xl font-bold text-gray-800 leading-snug">{{ post.title }}</h3>
+
+          <div class="text-gray-600 text-sm flex-1 line-clamp-3" [innerHTML]="post.content | slice:0:150"></div>
+
+          <div class="flex items-center justify-between pt-2">
+            <div class="text-xs text-gray-500">
+              {{ post.created_at | date }}
+            </div>
+            <button
+              routerLink="/post/detail/{{post.id}}"
+              class="text-blue-600 hover:text-blue-800 font-medium flex items-center transition"
+            >
+              اقرأ المزيد
+              <svg class="w-4 h-4 mr-1 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center mt-6 gap-4" dir="rtl">
+      <!-- Previous Button (السابق) -->
+      <button
+        (click)="goToPreviousPage()"
+        [disabled]="currentPage === 1"
+        class="px-5 py-2 rounded-full border border-slate-300 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+      >
+        السابق
+      </button>
+
+      <!-- Current Page Display -->
+      <span class="px-4 py-2 text-slate-600 text-sm font-medium bg-white rounded-full border border-slate-200 shadow-sm">
+        الصفحة {{ currentPage }}
+      </span>
+
+      <!-- Next Button (التالي) -->
+      <button
+        (click)="goToNextPage()"
+        [disabled]="currentPage === lastPage"
+        class="px-5 py-2 rounded-full border border-slate-300 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+      >
+        التالي
+      </button>
+    </div>
+  </div>

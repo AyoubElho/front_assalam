@@ -1,0 +1,263 @@
+<div class="w-full min-h-full flex flex-col space-y-8 p-6 rounded-xl bg-gray-50" dir="rtl">
+  <!-- Header Section -->
+  <div class="flex justify-between items-center">
+    <h1 class="text-3xl font-bold back text-gray-800">معلومات الأرملة</h1>
+    <p-button
+      icon="pi pi-angle-left"
+      [rounded]="true"
+      [text]="true"
+      [raised]="true"
+      (onClick)="goBack()"
+      label="رجوع"
+    ></p-button>
+  </div>
+
+  <!-- Widow Form -->
+  <form class="space-y-6" [formGroup]="widowForm" (ngSubmit)="submitForm()">
+    <!-- Debug Form (remove in production) -->
+    <pre *ngIf="false">{{ widowForm.value | json }}</pre>
+
+    <!-- Widow Information Section -->
+    <div class="bg-white rounded-xl shadow-md p-6 space-y-6">
+      <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200">المعلومات الشخصية</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Full Name -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">الاسم الكامل <span class="text-red-500">*</span></label>
+          <input
+            type="text"
+            pInputText
+            formControlName="full_name"
+            placeholder="أدخل الاسم الكامل"
+            [ngClass]="{
+              'border-red-500': widowForm.get('full_name')?.invalid &&
+                              (widowForm.get('full_name')?.dirty || widowForm.get('full_name')?.touched)
+            }"
+            class="w-full"
+          />
+          @if (widowForm.get('full_name')?.invalid &&
+          (widowForm.get('full_name')?.dirty || widowForm.get('full_name')?.touched)) {
+            <div class="text-red-500 text-xs mt-1">
+              @if (widowForm.get('full_name')?.errors?.['required']) {
+                <span>هذا الحقل مطلوب</span>
+              }
+              @if (widowForm.get('full_name')?.errors?.['minlength']) {
+                <span>يجب أن يكون الاسم 3 أحرف على الأقل</span>
+              }
+              @if (widowForm.get('full_name')?.errors?.['pattern']) {
+                <span>يجب أن يحتوي على أحرف عربية فقط</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- CIN -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">رقم البطاقة الوطنية <span
+            class="text-red-500">*</span></label>
+          <input
+            type="text"
+            pInputText
+            formControlName="cin"
+            placeholder="مثال: A123456"
+            [ngClass]="{
+              'border-red-500': widowForm.get('cin')?.invalid &&
+                              (widowForm.get('cin')?.dirty || widowForm.get('cin')?.touched)
+            }"
+            class="w-full"
+          />
+          @if (widowForm.get('cin')?.invalid &&
+          (widowForm.get('cin')?.dirty || widowForm.get('cin')?.touched)) {
+            <div class="text-red-500 text-xs mt-1">
+              @if (widowForm.get('cin')?.errors?.['required']) {
+                <span>هذا الحقل مطلوب</span>
+              }
+              @if (widowForm.get('cin')?.errors?.['pattern']) {
+                <span>يجب أن يبدأ بحرف متبوع بـ 6 أرقام</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Birth Date -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">تاريخ الميلاد <span
+            class="text-red-500">*</span></label>
+          <p-calendar
+            formControlName="birth_date"
+            [showIcon]="true"
+            dateFormat="yy/mm/dd"
+            placeholder="اختر تاريخ الميلاد"
+            [ngClass]="{
+              'border-red-500': widowForm.get('birth_date')?.invalid &&
+                              (widowForm.get('birth_date')?.dirty || widowForm.get('birth_date')?.touched)
+            }"
+          ></p-calendar>
+          @if (widowForm.get('birth_date')?.invalid &&
+          (widowForm.get('birth_date')?.dirty || widowForm.get('birth_date')?.touched)) {
+            <div class="text-red-500 text-xs mt-1">
+              @if (widowForm.get('birth_date')?.errors?.['required']) {
+                <span>هذا الحقل مطلوب</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label class="block text-sm text-right font-semibold text-gray-700 mb-1">رقم الهاتف <span
+            class="text-red-500">*</span></label>
+          <input
+            type="tel"
+            pInputText
+            formControlName="tel"
+            placeholder="مثال: 0612345678"
+            [ngClass]="{
+              'border-red-500': widowForm.get('tel')?.invalid &&
+                              (widowForm.get('tel')?.dirty || widowForm.get('tel')?.touched)
+            }"
+            class="w-full text-right"
+          />
+          @if (widowForm.get('tel')?.invalid &&
+          (widowForm.get('tel')?.dirty || widowForm.get('tel')?.touched)) {
+            <div class="text-red-500 text-xs mt-1">
+              @if (widowForm.get('tel')?.errors?.['required']) {
+                <span>هذا الحقل مطلوب</span>
+              }
+              @if (widowForm.get('tel')?.errors?.['pattern']) {
+                <span>يجب أن يكون رقم هاتف مغربي صحيح (مثال: 0612345678)</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Children Section -->
+    <div class="bg-white rounded-xl shadow-md p-6 space-y-6 border border-gray-100">
+      <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200 flex items-center">
+        <mat-icon class="mr-2 text-blue-500" style="font-size: 24px;">child_care</mat-icon>
+        معلومات الأبناء
+      </h2>
+
+      <div formArrayName="children" *ngFor="let child of children.controls; let i = index">
+        <div [formGroupName]="i" class="bg-gray-50 border border-gray-200 p-5 rounded-lg mb-4 shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-700 flex items-center">
+              <mat-icon class="mr-2 text-blue-400" style="font-size: 20px;">person_outline</mat-icon>
+              الابن {{ i + 1 }}
+            </h3>
+            <button
+              type="button"
+              class="text-red-500 hover:text-red-700 flex items-center p-1 rounded-full hover:bg-red-50 transition-colors"
+              (click)="removeChild(i)"
+              *ngIf="children.length > 1"
+              matTooltip="إزالة"
+              matTooltipPosition="left"
+            >
+              <mat-icon style="font-size: 20px;">delete</mat-icon>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Child Full Name -->
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">الاسم الكامل <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                pInputText
+                formControlName="full_name"
+                placeholder="أدخل الاسم الكامل"
+                [ngClass]="{
+              'border-red-500': child.get('full_name')?.invalid &&
+                              (child.get('full_name')?.dirty || child.get('full_name')?.touched)
+            }"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all"
+              />
+              @if (child.get('full_name')?.invalid &&
+              (child.get('full_name')?.dirty || child.get('full_name')?.touched)) {
+                <div class="text-red-500 text-xs mt-1 flex items-start">
+                  <mat-icon class="mr-1" style="font-size: 14px;">error_outline</mat-icon>
+                  @if (child.get('full_name')?.errors?.['required']) {
+                    <span>هذا الحقل مطلوب</span>
+                  }
+                  @if (child.get('full_name')?.errors?.['minlength']) {
+                    <span>يجب أن يكون الاسم 3 أحرف على الأقل</span>
+                  }
+                  @if (child.get('full_name')?.errors?.['pattern']) {
+                    <span>يجب أن يحتوي على أحرف عربية فقط</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Child Birth Date -->
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-2">تاريخ الميلاد <span class="text-red-500">*</span></label>
+              <p-calendar
+                formControlName="birth_date"
+                [showIcon]="true"
+                iconDisplay="input"
+                inputId="birth_date"
+                dateFormat="yy/mm/dd"
+                placeholder="اختر تاريخ الميلاد"
+                [ngClass]="{
+              'border-red-500': child.get('birth_date')?.invalid &&
+                              (child.get('birth_date')?.dirty || child.get('birth_date')?.touched)
+            }"
+                class="w-full [&>span>input]:p-3 [&>span>input]:w-full [&>span>input]:border [&>span>input]:border-gray-300 [&>span>input]:rounded-lg [&>span>input]:focus:ring-2 [&>span>input]:focus:ring-blue-200 [&>span>input]:focus:border-blue-500"
+              ></p-calendar>
+              @if (child.get('birth_date')?.invalid &&
+              (child.get('birth_date')?.dirty || child.get('birth_date')?.touched)) {
+                <div class="text-red-500 text-xs mt-1 flex items-start">
+                  <mat-icon class="mr-1" style="font-size: 14px;">error_outline</mat-icon>
+                  @if (child.get('birth_date')?.errors?.['required']) {
+                    <span>هذا الحقل مطلوب</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Is Studying Checkbox -->
+            <div class="flex items-center md:mt-7">
+              <mat-checkbox
+                formControlName="is_studying"
+                color="primary"
+                class="mr-2 transform scale-110"
+              ></mat-checkbox>
+              <label class="text-sm font-medium text-gray-600">هل يدرس؟</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="children.errors?.['noStudyingOrphan'] && children.touched"
+           class="text-red-600 text-sm font-semibold mt-2 p-2 bg-red-50 border-r-4 border-red-500 rounded">
+        يجب أن يكون هناك يتيم واحد على الأقل يتابع دراسته
+      </div>
+
+      <!-- Add Child Button -->
+      <button
+        type="button"
+        class="flex items-center text-blue-600 hover:text-blue-800 text-sm font-semibold mt-2 p-2 rounded-lg hover:bg-blue-50 transition-colors"
+        (click)="addChild()"
+      >
+        <mat-icon class="mr-2 text-blue-600 bg-blue-100 p-1 rounded-full" style="font-size: 18px;">add</mat-icon>
+        إضافة ابن
+      </button>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-end mt-6">
+      <p-button
+        type="submit"
+        label="حفظ البيانات"
+        icon="pi pi-save"
+        [loading]="loading"
+        [disabled]="loading || widowForm.invalid"
+        severity="primary"
+      ></p-button>
+    </div>
+  </form>
+</div>

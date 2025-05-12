@@ -1,0 +1,8 @@
+>>> .mat-mdc-paginator-container {
+  justify-content: center !important;
+}
+
+::ng-deep .back .p-button {
+  background: white !important;
+  color: black !important;
+}

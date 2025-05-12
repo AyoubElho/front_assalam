@@ -1,0 +1,12 @@
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.group:hover .group-hover\:bg-blue-200 {
+  background-color: #bfdbfe;
+}

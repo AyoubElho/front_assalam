@@ -1,0 +1,90 @@
+<div class="p-8 bg-gray-50 min-h-screen font-sans">
+  <!-- Header and Create Button -->
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 tracking-tight">User Management</h1>
+    <button mat-raised-button color="primary"
+            (click)="openCreateUserDialog()"
+            class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md">
+      <mat-icon>person_add</mat-icon>
+      Create New User
+    </button>
+  </div>
+
+  <!-- Users Table -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="p-5 border-b border-gray-200 bg-gray-100">
+      <h2 class="text-2xl font-semibold text-gray-700">Writers and Admins</h2>
+    </div>
+
+    <table mat-table [dataSource]="writersAndAdmins" class="w-full text-sm">
+      <!-- Picture -->
+      <ng-container matColumnDef="picture">
+        <th mat-header-cell *matHeaderCellDef class="pl-6 py-3 text-left text-gray-600 font-medium">Picture</th>
+        <td mat-cell *matCellDef="let user" class="pl-6 py-3">
+          <img [src]="user.pic || 'assets/default-avatar.png'"
+               class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
+        </td>
+      </ng-container>
+
+      <!-- Name -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="text-left text-gray-600 font-medium">Name</th>
+        <td mat-cell *matCellDef="let user" class="font-semibold text-gray-800">{{ user.name }}</td>
+      </ng-container>
+
+      <!-- Email -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef class="text-left text-gray-600 font-medium">Email</th>
+        <td mat-cell *matCellDef="let user" class="text-gray-700">{{ user.email }}</td>
+      </ng-container>
+
+      <!-- Role -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef class="text-left text-gray-700 font-semibold text-sm">Role</th>
+        <td mat-cell *matCellDef="let user">
+          <p-dropdown
+            [options]="roles"
+            [(ngModel)]="user.role"
+            (onChange)="updateUserRole(user)"
+            optionLabel="label"
+            appendTo="body"
+            optionValue="value"
+            [style]="{'width':'130px'}"
+            class="p-dropdown-sm w-full">
+          </p-dropdown>
+        </td>
+
+      </ng-container>
+
+      <!-- Created At -->
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef class="text-left text-gray-600 font-medium">Created At</th>
+        <td mat-cell *matCellDef="let user" class="text-gray-500">{{ user.created_at | date: 'medium' }}</td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="pr-6 text-right text-gray-600 font-medium">Actions</th>
+        <td mat-cell *matCellDef="let user" class="pr-6">
+          <div class="flex justify-end gap-3">
+            <button mat-icon-button color="primary"
+                    matTooltip="Reset Password"
+                    (click)="generateAndResetPassword(user)"
+                    class="hover:bg-blue-100 rounded-full p-1">
+              <mat-icon>autorenew</mat-icon>
+            </button>
+            <button mat-icon-button color="warn"
+                    matTooltip="Delete User"
+                    (click)="confirmDelete(user)"
+                    class="hover:bg-red-100 rounded-full p-1">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-200 text-sm uppercase tracking-wider"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-50 border-t border-gray-100"></tr>
+    </table>
+  </div>
+</div>

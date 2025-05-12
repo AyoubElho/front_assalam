@@ -1,0 +1,79 @@
+<section class="h-[calc(100vh-70px)] p-6 bg-gray-50 flex flex-col md:flex-row gap-6">
+  <!-- Events List Section -->
+  <div class="w-full md:w-1/3 h-full overflow-y-auto pr-2 space-y-5">
+    <p-card>
+      @for (event of events; track events.id) {
+        <mat-card
+          class="bg-white rounded-xl mb-3 p-3 shadow hover:shadow-md transition-shadow border-l-4 border-blue-600 relative"
+        >
+          <div class="flex flex-row-reverse items-center justify-between">
+            <div>
+              <button mat-icon-button
+                      [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button
+                  mat-menu-item
+                  (click)="deleteEvent(event.id)"
+                  class=" !text-red-600 !hover:text-red-800"
+                  aria-label="حذف الحدث"
+                >
+                  حذف
+                </button>
+                <button
+                  mat-menu-item (click)="editEvent(event)"
+                  class="!text-blue-600 !hover:text-blue-800"
+                  aria-label="تعديل الحدث"
+                >
+                  تعديل
+                </button>
+
+              </mat-menu>
+            </div>
+
+
+            <!-- Event Title & Description -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">{{ event.title }}</h3>
+            </div>
+          </div>
+
+          <p class="text-sm text-gray-500 mb-3">{{ event.description }}</p>
+
+          <!-- Event Details -->
+          <div class="space-y-3 text-sm text-gray-600">
+            <!-- Date -->
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <span>{{ event.start | date: 'mediumDate' }} → {{ event.end | date: 'mediumDate' }}</span>
+            </div>
+
+            <!-- Location -->
+            <div *ngIf="event.location" class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span>{{ event.location }}</span>
+            </div>
+          </div>
+        </mat-card>
+      }
+    </p-card>
+  </div>
+
+  <!-- Calendar Section -->
+  <div class="w-full md:flex-1 h-full">
+    <full-calendar
+      class="w-full h-full bg-white rounded-xl shadow border border-gray-200 p-4"
+      [options]="calendarOptions"
+    ></full-calendar>
+
+  </div>
+</section>

@@ -1,0 +1,270 @@
+@if (!isLoading) {
+  <section class="p-5">
+    <div class="w-full">
+      <p-card
+        header="{{request?.application_type === 'يتيم_أرملة' ? 'معلومات الارملة' : 'معلومات الزوجة'}}"
+        *ngIf="request">
+        <div class="flex flex-col md:flex-row gap-4">
+          <!-- Avatar Section -->
+          <div class="flex justify-center md:justify-start md:w-[20%] mt-5">
+            <p-avatar
+              class="!text-[60px] !w-[150px] !h-[150px] transition-transform duration-300 ease-in-out"
+              label="{{ request?.application_type === 'يتيم_أرملة' ? nameTransform(request?.widow?.name) : nameTransform(request?.destitute?.name) }}"
+              styleClass="mr-2"
+              size="xlarge"
+              [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }"
+              shape="circle">
+            </p-avatar>
+          </div>
+
+          <!-- Information Section -->
+          <div class="flex flex-col md:flex-row w-full md:w-[80%] gap-4">
+            <!-- First Column -->
+            <div class="w-full md:w-1/2 space-y-4">
+              <div>
+                <label class="block mb-2 text-sm text-slate-600">
+                  {{ request?.application_type === 'يتيم_أرملة' ? 'اسم الارملة' : 'اسم الزوجة' }}
+                </label>
+                <input
+                  class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                  value="{{request?.application_type === 'يتيم_أرملة'?request?.widow?.name:request?.destitute?.name}}"
+                  disabled/>
+              </div>
+
+              <div>
+                <label class="block mb-2 text-sm text-slate-600">
+                  رقم الهاتف
+                </label>
+                <input
+                  dir="ltr"
+                  class="w-full text-end bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                  value="{{request?.application_type === 'يتيم_أرملة'?request?.widow?.tel :request?.destitute?.phone}}"
+                  disabled/>
+              </div>
+            </div>
+
+            <!-- Second Column -->
+            <div class="w-full md:w-1/2 space-y-4">
+              <div>
+                <label class="block mb-2 text-sm text-slate-600">
+                  رقم بطاقة التعريف
+                </label>
+                <input
+                  class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                  value="{{request?.application_type === 'يتيم_أرملة'?request?.widow?.cin :request?.destitute?.cin}}"
+                  disabled/>
+              </div>
+
+              @if (request?.application_type === 'يتيم_أرملة') {
+                <div>
+                  <label class="block mb-2 text-sm text-slate-600">
+                    عدد الابناء
+                  </label>
+                  <input
+                    class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                    value="{{request?.widow?.orphans?.length || 0}}"
+                    disabled/>
+                </div>
+              } @else if (request?.application_type === 'أسرة_معوزة') {
+                <div>
+                  <label class="block mb-2 text-sm text-slate-600">
+                    اسم الزوج
+                  </label>
+                  <input
+                    class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                    value="{{request?.destitute?.husband?.name}}"
+                    disabled/>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Documents Section -->
+    <div class="mt-4">
+      <p-card header="الوثائق المرفقة" *ngIf="request">
+        <div class="card-content mt-4 overflow-auto">
+          <div class="min-w-full overflow-hidden">
+            <table class="w-full text-right table-auto bg-white shadow-md rounded-lg overflow-hidden">
+              <thead>
+              <tr>
+                <th class="p-4 border-b border-slate-300 bg-slate-50 text-sm font-normal text-slate-500"></th>
+                <th class="p-4 border-b border-slate-300 bg-slate-50 text-sm font-normal text-slate-500">نوع الملف</th>
+                <th class="p-4 border-b border-slate-300 bg-slate-50 text-sm font-normal text-slate-500">الحالة</th>
+                <th class="p-4 border-b border-slate-300 bg-slate-50 text-sm font-normal text-slate-500">العرض</th>
+                @if (role == 'writer') {
+                  <th class="p-4 border-b border-slate-300 bg-slate-50 text-sm font-normal text-slate-500">ملاحظة الكاتب
+                  </th>
+                }
+              </tr>
+              </thead>
+              <tbody>
+                @for (file of request.request_files; track file) {
+                  <tr class="hover:bg-slate-50">
+                    <!-- Status Indicator -->
+                    <td class="p-4 border-b border-slate-200 relative">
+                      <div class="w-6 h-6 rounded-full flex items-center justify-center"
+                           [ngStyle]="{
+                        'background-color': file.status === 'accepted' ? '#22c55e' :
+                                          (file.status === 'rejected' ? '#ef4444' : '#d1d5db')
+                      }">
+                        <mat-icon [ngStyle]="{ color: 'white' }">
+                          {{
+                            file.status === 'accepted' ? 'check_small' :
+                              (file.status === 'rejected' ? 'close' : 'help')
+                          }}
+                        </mat-icon>
+                      </div>
+                    </td>
+
+                    <!-- File Type -->
+                    <td class="p-4 border-b border-slate-200">
+                      <div class="flex items-center gap-2">
+                        <i class="pi pi-file-pdf text-red-500 text-xl"></i>
+                        <span class="text-sm font-medium text-slate-800">
+                        {{ file.file_type.replace('_', ' ') }}
+                      </span>
+                      </div>
+                    </td>
+
+                    <!-- Status Dropdown -->
+                    <td class="p-4 border-b border-slate-200 relative">
+                      <div class="relative w-[200px]">
+                        <select
+                          [(ngModel)]="file.status"
+                          (change)="updateFileStatus(file)"
+                          [disabled]="isDisabled()"
+                          [ngClass]="{
+                          'bg-gray-100 text-gray-700 cursor-not-allowed opacity-70': isDisabled()
+                        }"
+                          class="w-full bg-transparent text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-1.5
+                              transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400
+                              shadow-sm focus:shadow-md appearance-none">
+                          <option *ngFor="let status of statuses" [value]="status.value">
+                            {{ status.label }}
+                          </option>
+                        </select>
+
+                        @if (file.loading) {
+                          <div class="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center rounded">
+                            <i class="pi pi-spinner pi-spin text-gray-500"></i>
+                          </div>
+                        }
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2"
+                             stroke="currentColor"
+                             class="h-5 w-5 ml-1 absolute top-2 left-2.5 text-slate-700 pointer-events-none">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
+                        </svg>
+                      </div>
+                    </td>
+
+                    <!-- View File -->
+                    <td class="p-4 border-b border-slate-200">
+                      <a [href]="environment.apiURL+'/storage/' + file.file_path" target="_blank"
+                         class="text-blue-600 hover:underline text-sm flex items-center gap-1">
+                        <i class="pi pi-eye"></i> عرض
+                      </a>
+                    </td>
+
+                    @if (role == 'writer') {
+                      <td class="p-4 border-b border-slate-200">
+                        <div class="relative">
+      <textarea
+        [(ngModel)]="file.note_admin"
+        (change)="updateNote(file)"
+        [disabled]="file.status != 'rejected'"
+        placeholder="أضف ملاحظة..."
+        rows="3"
+        class="w-full text-sm bg-white text-slate-800 border border-slate-300 rounded-lg px-3 py-2  <!-- Added right padding for icon -->
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+              hover:border-slate-400 shadow-sm transition-all duration-200 ease-in-out
+              disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+              resize-y min-h-[80px]"
+        [ngClass]="{
+          'border-red-200 bg-red-50': file.status === 'rejected',
+          'border-slate-300': file.status !== 'rejected'
+        }">
+      </textarea>
+
+                          <!-- Character counter (optional) - moved to left side -->
+                          <div class="absolute bottom-2 right-2 text-xs text-slate-400" *ngIf="file.note_admin">
+                            {{ file.note_admin.length }}/500
+                          </div>
+
+                          <!-- Status indicator icon - moved to right side (RTL) -->
+                          <div class="absolute top-3 left-3 text-slate-400">  <!-- Changed from right-3 to left-3 -->
+                            <i class="pi"
+                               [ngClass]="{
+             'pi-pencil text-blue-500': file.status === 'rejected',
+             'pi-lock': file.status !== 'rejected'
+           }">
+                            </i>
+                          </div>
+                        </div>
+                      </td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Decision Section -->
+    @if (this.role === 'writer') {
+      <div class="mt-4">
+        <p-card header="اتخذ قرار">
+          <div class="flex flex-wrap gap-3 mt-4 justify-center">
+            <button (click)="markAsComplete(request.id)"
+                    class="bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-600 focus:outline-none
+                  flex items-center gap-2 transition-colors duration-200">
+              <i class="pi pi-check-circle"></i> مكتمل
+            </button>
+
+            @if (request.status != 'غير_مكتمل') {
+              <button (click)="markAsIncomplete(request.id)"
+                      class="bg-red-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-red-600 focus:outline-none
+                    flex items-center gap-2 transition-colors duration-200">
+                <i class="pi pi-times-circle"></i> غير مكتمل
+              </button>
+            }
+          </div>
+        </p-card>
+      </div>
+    } @else if (this.role == 'admin' && (request.status == 'قيد_الانتظار' || request.status == 'مرفوض' || request.status == 'قيد_مراجعة_المسؤول')) {
+      <div class="mt-4">
+        <p-card header="اتخذ قرار" *ngIf="request">
+          <div class="flex flex-wrap gap-3 mt-4 justify-center">
+            <button (click)="markAsComplete(request.id)"
+                    class="bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-600 focus:outline-none
+                  flex items-center gap-2 transition-colors duration-200">
+              <i class="pi pi-info-circle"></i> قيد التأكيد
+            </button>
+
+            @if (this.request.status != 'مرفوض') {
+              <button (click)="markAsIncomplete(request.id)"
+                      class="bg-red-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-red-600 focus:outline-none
+                    flex items-center gap-2 transition-colors duration-200">
+                <i class="pi pi-times-circle"></i> مرفوض
+              </button>
+            }
+
+            @if (this.request.status != "قيد_الانتظار") {
+              <button (click)="markAsPending(request.id)"
+                      class="bg-yellow-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-yellow-600 focus:outline-none
+                    flex items-center gap-2 transition-colors duration-200">
+                <i class="pi pi-clock"></i> قيد الانتظار
+              </button>
+            }
+          </div>
+        </p-card>
+      </div>
+    }
+  </section>
+}

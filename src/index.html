@@ -1,6 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function (OneSignal) {
+      await OneSignal.init({
+        appId: "c5399edc-4be7-42cd-afca-e8d3074a578d",
+      });
+      console.log(OneSignal.User)
+    });
+  </script>
+
   <meta charset="utf-8">
   <title>AssalamSidiKacemFront</title>
   <base href="/">
@@ -8,6 +19,19 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+  <style>
+    * {
+      font-family: "Amiri", serif;
+      font-weight: 500;
+      font-style: normal;
+    }
+  </style>
+
 </head>
 <body class="mat-typography">
 <app-root></app-root>

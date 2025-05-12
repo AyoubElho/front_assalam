@@ -1,0 +1,38 @@
+>>> .p-ripple {
+  pointer-events: auto !important;
+  z-index: 9999 !important;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+>>> .mat-mdc-unelevated-button:not(:disabled) {
+  background-color: #2a3236;
+}
+
+>>> .p-galleria-nav-button {
+  background-color: black !important;
+  width: 35px;
+  z-index: 999999;
+  height: 35px;
+}
+
+>>> .p-galleria-nav-button:hover {
+  background-color: #3b4246 !important;
+}
+
+.like-count {
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+>>> .mat-icon {
+  font-size: 16px !important;
+}
+
+
+>>> .p-galleria-indicator-active .p-galleria-indicator-button {
+  background-color: black !important;
+}
+

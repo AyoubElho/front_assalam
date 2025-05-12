@@ -1,0 +1,92 @@
+<div class="w-full h-full flex-col space-y-7 overflow-hidden">
+  <div class="flex justify-between flex-row-reverse">
+    <div>
+      <p-button
+        class="back"
+        icon="pi pi-angle-left"
+        [rounded]="true"
+        [text]="true"
+        [raised]="true"
+        (onClick)="goBack()"
+      ></p-button>
+    </div>
+    <div>
+      <h1 class="text-2xl font-bold text-right text-gray-800 mb-6">إضافة يتيم</h1>
+    </div>
+  </div>
+
+  <div class="flex">
+    <form [formGroup]="orphanForm" class="flex justify-between w-full" (ngSubmit)="create()">
+      <!-- Left Section: Inputs -->
+      <div class="w-[100%] example-form space-y-5">
+        <!-- Full Name & Guardian Name -->
+        <div class="flex gap-3">
+          <mat-form-field class="w-1/2">
+            <mat-label>الاسم الكامل</mat-label>
+            <input matInput formControlName="full_name"/>
+            <mat-error *ngIf="orphanForm.get('full_name')?.hasError('required')">
+              الاسم الكامل مطلوب
+            </mat-error>
+            <mat-error *ngIf="orphanForm.get('full_name')?.hasError('minlength')">
+              الاسم يجب أن يكون على الأقل 3 أحرف
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="w-1/2">
+            <mat-label>الكافل</mat-label>
+            <mat-select formControlName="guardian_id">
+              @for (guard of listGuardians; track guard.id) {
+                <mat-option class="flex flex-row items-center" [value]="guard.id">
+                  <p-avatar image="{{guard.pic_guardian}}" styleClass="mr-2 cursor-pointer"
+                            size="normal"
+                            shape="circle">
+                  </p-avatar>
+                  {{ guard.name }}
+                </mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="orphanForm.get('guardian_id')?.hasError('required')">
+              يجب اختيار كافل
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Birth Date & Mother's Name -->
+        <div class="flex gap-3">
+          <mat-form-field class="w-1/2">
+            <mat-label>تاريخ الميلاد</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birth_date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="orphanForm.get('birth_date')?.hasError('required')">
+              تاريخ الميلاد مطلوب
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="w-1/2">
+            <mat-label>اسم الأم</mat-label>
+            <input matInput formControlName="mother_name"/>
+            <mat-error *ngIf="orphanForm.get('mother_name')?.hasError('required')">
+              اسم الأم مطلوب
+            </mat-error>
+            <mat-error *ngIf="orphanForm.get('mother_name')?.hasError('minlength')">
+              الاسم يجب أن يكون على الأقل 3 أحرف
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <p-button
+            type="submit"
+            role="button"
+            severity="contrast"
+            [loading]="loading"
+            [disabled]="loading || orphanForm.invalid"
+          >
+            <ng-container *ngIf="!loading">انشاء يتيم</ng-container>
+          </p-button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

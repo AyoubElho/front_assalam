@@ -6,7 +6,6 @@ import {TableModule} from 'primeng/table';
 import {OrphanService} from '../../../services/service/OrphanService';
 import {Avatar} from 'primeng/avatar';
 import {Button} from 'primeng/button';
-import "primeicons/primeicons.css";
 import {SplitButton} from 'primeng/splitbutton';
 import {RouterLink} from '@angular/router';
 import {IconField} from 'primeng/iconfield';

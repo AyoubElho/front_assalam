@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MenuItem} from 'primeng/api';
-import {Avatar} from 'primeng/avatar';
+import {AvatarModule} from 'primeng/avatar';
 import {Menu} from 'primeng/menu';
 import {AuthService} from '../../services/service/AuthService';
 import {NgIf} from "@angular/common";
@@ -21,7 +21,7 @@ import {CountUpModule} from 'ngx-countup';
 @Component({
   selector: 'app-user-layout',
   standalone: true,
-  imports: [RouterLink, Avatar, Menu, NgIf, RouterOutlet, MatButtonModule, MatMenuModule, MatIconModule,
+  imports: [RouterLink, AvatarModule, Menu, NgIf, RouterOutlet, MatButtonModule, MatMenuModule, MatIconModule,
     RouterLinkActive, NgxSpinnerComponent, Button, Dialog, FormsModule, ReactiveFormsModule,
     HttpClientModule, Chip, CountUpModule],
   templateUrl: './user-layout.component.html',

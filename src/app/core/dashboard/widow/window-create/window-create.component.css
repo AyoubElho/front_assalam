@@ -1,9 +1,11 @@
 ::ng-deep .mat-calendar {
   background-color: white;
 }
+
 >>> .p-datepicker {
   width: 100% !important;
 }
+
 ::ng-deep .p-button {
   background: white !important;
   color: black !important;
@@ -13,6 +15,12 @@
   background-color: white !important;
 }
 
->>> .submit .p-button {
+::ng-deep .submit .p-button {
   width: 100% !important;
 }
+
+
+:where(.space-y-8 > :not(:last-child)) {
+  margin-block-end: 0 !important;
+}
+

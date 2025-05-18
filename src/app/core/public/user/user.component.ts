@@ -1,12 +1,13 @@
-import { Component, inject, OnInit, AfterViewInit } from '@angular/core';
-import { AuthService } from '../../services/service/AuthService';
-import { MatIconModule } from '@angular/material/icon';
-import { DonationService } from '../../services/service/DonationService';
+import {Component, inject, OnInit, AfterViewInit} from '@angular/core';
+import {AuthService} from '../../services/service/AuthService';
+import {MatIconModule} from '@angular/material/icon';
+import {DonationService} from '../../services/service/DonationService';
 import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import {InfiniteScrollDirective} from 'ngx-infinite-scroll';
 import {BarChartModule} from "@swimlane/ngx-charts";
 import {NgxFastMarqueeModule} from "ngx-fast-marquee";
 import {CountUpModule} from 'ngx-countup';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-user',
@@ -27,14 +28,16 @@ import {CountUpModule} from 'ngx-countup';
 })
 export class UserComponent implements OnInit {
   donationService = inject(DonationService);
+  private spinner = inject(NgxSpinnerService);
+
   donations: any = [];
 
-  constructor(private authService: AuthService) {}
-
   ngOnInit(): void {
+    this.spinner.show();
     this.donationService.getAll().then(res => {
       this.donations = res.data;
-      console.log(res.data);
+    }).finally(() => {
+      this.spinner.hide(); // Ensure hide is always called
     });
   }
 

@@ -31,6 +31,7 @@ import {EditWidowDialogComponent} from './edit-widow-dialog/edit-widow-dialog.co
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
+import {Select} from 'primeng/select';
 
 @Component({
   selector: 'app-widows',
@@ -59,7 +60,9 @@ import {ConfirmationService} from 'primeng/api';
     NgIf,
     DropdownModule,
     FormsModule,
-    ConfirmDialogModule, // Import ConfirmDialogModule
+    ConfirmDialogModule,
+    Select,
+    // Import ConfirmDialogModule
   ],
   templateUrl: './widows.component.html',
   styleUrls: ['./widows.component.css'],
@@ -74,7 +77,7 @@ export class WidowsComponent implements OnInit, AfterViewInit {
 
   originalData: any[] = [];
   role: string | null = '';
-  displayedColumns: string[] = ['name', 'cin', 'tel', 'countOrphan', 'is_supported', 'created_at', 'actions'];
+  displayedColumns: string[] = ['name', 'cin', 'tel', 'age', 'countOrphan', 'is_supported', 'created_at', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -98,12 +101,31 @@ export class WidowsComponent implements OnInit, AfterViewInit {
       this.originalData = resp.data.data.map((widow: any) => ({
         ...widow,
         countOrphan: widow.orphans?.length || 0,
+        age: this.getAge(widow.birth_date)
       }));
+
       this.dataSource.data = this.originalData;
     } catch (error) {
       console.error('Error loading widows:', error);
     }
   }
+
+  getAge(birthDateString: string): number | string {
+    if (!birthDateString) return 'غير معروف';
+
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  }
+
   exportToCSV() {
     const headers = ['الاسم', 'رقم البطاقة', 'الهاتف', 'عدد الأيتام', 'مدعومة', 'تاريخ الإضافة'];
 

@@ -12,6 +12,7 @@ import { Card } from 'primeng/card';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-calendar',
@@ -36,6 +37,8 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 export class CalendarComponent implements OnInit {
   dialog = inject(MatDialog);
   eventService = inject(EventService);
+  private spinner = inject(NgxSpinnerService);
+
   events: any = [];
   role = localStorage.getItem('role'); // Assuming role is stored as 'role'
 
@@ -47,33 +50,41 @@ export class CalendarComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.spinner.show();
     this.loadEvents();
   }
 
   loadEvents() {
-    this.eventService.getAll().then((res) => {
-      this.events = res.data;
-      this.calendarOptions.events = this.events.map((event: any) => {
-        const startDate = new Date(event.start);
-        const endDate = new Date(event.end);
+    this.eventService.getAll()
+      .then((res) => {
+        this.events = res.data;
 
-        // Add 1 day to end date
-        endDate.setDate(endDate.getDate() + 1);
+        this.calendarOptions.events = this.events.map((event: any) => {
+          const startDate = new Date(event.start);
+          const endDate = new Date(event.end);
+          endDate.setDate(endDate.getDate() + 1);
 
-        return {
-          title: event.title,
-          start: startDate.toISOString(),
-          end: endDate.toISOString(),
-          extendedProps: {
-            description: event.description,
-            location: event.location,
-            creator: event.creator,
-          },
-          id: event.id, // Include the event ID for edit and delete
-        };
+          return {
+            title: event.title,
+            start: startDate.toISOString(),
+            end: endDate.toISOString(),
+            extendedProps: {
+              description: event.description,
+              location: event.location,
+              creator: event.creator,
+            },
+            id: event.id,
+          };
+        });
+      })
+      .catch((error) => {
+        console.error('Failed to load events:', error);
+      })
+      .finally(() => {
+        this.spinner.hide(); // ✅ Always hide spinner after load
       });
-    });
   }
+
 
   handleDateClick(arg: any) {
     if (this.role !== 'admin' && this.role !== 'super_admin') {

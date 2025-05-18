@@ -66,7 +66,7 @@ export class DistitutesComponent implements OnInit, AfterViewInit {
   router = inject(Router);
   role: string | null = ''
 
-  displayedColumns: string[] = ['name', 'cin', 'tel', 'birth_date', 'husband_info', 'actions'];
+  displayedColumns: string[] = ['name', 'cin', 'tel', 'birth_date', 'age', 'husband_info', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -88,12 +88,15 @@ export class DistitutesComponent implements OnInit, AfterViewInit {
   async loadDistitutes() {
     try {
       const resp = await this.distituteService.getAll();
-      this.dataSource.data = resp.data.distitutes;
-      console.log(this.dataSource.data)
+      this.dataSource.data = resp.data.distitutes.map((item: any) => ({
+        ...item,
+        age: this.getAge(item.birth_date)
+      }));
     } catch (error) {
-      console.error('Error loading widows:', error);
+      console.error('Error loading distitutes:', error);
     }
   }
+
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -177,4 +180,21 @@ export class DistitutesComponent implements OnInit, AfterViewInit {
   createDistitute() {
     this.router.navigate(['/dashboard/distitute/create']);
   }
+
+  getAge(birthDateString: string): number | string {
+    if (!birthDateString) return 'غير معروف';
+
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  }
+
 }

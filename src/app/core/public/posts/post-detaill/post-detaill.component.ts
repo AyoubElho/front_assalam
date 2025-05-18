@@ -16,6 +16,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Toast} from 'primeng/toast';
 import {environment} from '../../../../../environments/environment';
+import {AvatarComponent} from "../../../avatar-component/avatar-component.component";
 
 
 @Component({
@@ -29,6 +30,7 @@ import {environment} from '../../../../../environments/environment';
     Dialog,
     ConfirmDialog,
     Toast,
+    AvatarComponent,
   ],
   templateUrl: './post-detaill.component.html',
   styleUrls: ['./post-detaill.component.css']
@@ -209,29 +211,26 @@ export class PostDetaillComponent implements OnInit {
   }
 
   submitComment(postId: number) {
-    if (this.newComment.trim() && postId) {
+    if (this.newComment?.trim()) {
       let comment = {
         post_id: postId,
         comment: this.newComment
       };
 
-      // Add the new comment first locally (optional, for immediate UI feedback)
       this.commentService.create(comment).then(resp => {
-        console.log('added successfully');
-        // After comment is added, reload the comments for this post
-        this.postService.findPostById(postId).then(resp => {
-          this.post = resp.data;
-          this.newComment = '';
-          this.loadComments(1);
+        this.newComment = '';
+        this.loadComments(1); // Refresh paginated comments
 
-        }).catch(err => {
-          console.error('Error reloading comments:', err);
+        // Update full comments array to fix "لا توجد تعليقات بعد" display
+        this.commentService.getAll(postId).then(resp => {
+          this.comments = resp.data.data;
         });
       }).catch(err => {
         console.error('Error adding comment:', err);
       });
     }
   }
+
 
   deleteComment(id: number) {
     this.confirmationService.confirm({
@@ -240,7 +239,7 @@ export class PostDetaillComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'نعم',
       rejectLabel: 'لا',
-      acceptButtonStyleClass: 'p-button-danger', // This makes the button red
+      acceptButtonStyleClass: 'p-button-danger',
       rejectButtonStyleClass: 'p-button-secondary',
       accept: () => {
         this.commentService.delete(id).then(res => {
@@ -249,13 +248,16 @@ export class PostDetaillComponent implements OnInit {
             summary: 'نجاح',
             detail: 'تم حذف التعليق بنجاح'
           });
+
           this.loadComments(this.currentPage);
 
+          // 🟢 Update the comments array to keep the "no comments" message accurate
+          this.commentService.getAll(this.post.id).then(resp => {
+            this.comments = resp.data.data;
+          });
         });
       },
-      reject: () => {
-
-      }
+      reject: () => {}
     });
   }
 

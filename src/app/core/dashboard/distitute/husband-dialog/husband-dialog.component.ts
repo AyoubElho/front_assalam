@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
   ],
   template: `
     <div class="dialog-container" dir="rtl">
-      <h2 mat-dialog-title class="dialog-title">معلومات الزوج</h2>
+      <h2  class="dialog-title">معلومات الزوج</h2>
       <mat-dialog-content class="dialog-content">
         <div class="info-row">
           <span class="info-label">الاسم:</span>
@@ -56,13 +56,15 @@ import { CommonModule } from '@angular/common';
       max-width: 500px;
     }
 
-    .dialog-title {
+    ::ng-deep .dialog-title {
       color: #3f51b5;
       text-align: center;
       padding-bottom: 15px;
       border-bottom: 1px solid #e0e0e0;
       margin-bottom: 20px;
-      font-weight: 700;
+      font-family: "Tajawal", sans-serif;
+      font-weight: 500;
+      font-style: normal;
     }
 
     .dialog-content {

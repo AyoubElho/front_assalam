@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {DatePipe, NgClass, NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
@@ -8,6 +8,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {StripHtmlPipe} from './StripHtmlPipe';
 import {environment} from '../../../../../environments/environment';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {Button} from 'primeng/button';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-news',
@@ -20,13 +23,17 @@ import {environment} from '../../../../../environments/environment';
     SlicePipe,
     NgClass,
     MatIconModule,
-    StripHtmlPipe
+    StripHtmlPipe,
+    Button,
+    MatButton
   ],
   templateUrl: './news.component.html',
   styleUrl: './news.component.css'
 })
 export class NewsComponent implements OnInit {
   postService = new PostService();
+  private spinner = inject(NgxSpinnerService);
+
   posts: any = [];
   searchText: string = "";
 
@@ -40,16 +47,23 @@ export class NewsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.loadAllPosts();
+
   }
 
   loadAllPosts(page: number = 1) {
+    this.spinner.show();
     this.postService.getAll(page).then(resp => {
       this.posts = resp.data.data;
       this.currentPage = resp.data.current_page;
       this.lastPage = resp.data.last_page;
       this.nextPageUrl = resp.data.next_page_url;
       this.prevPageUrl = resp.data.prev_page_url;
+    }).catch(error => {
+      console.error("Error loading posts:", error);
+    }).finally(() => {
+      this.spinner.hide(); // Ensure hide is always called
     });
   }
 

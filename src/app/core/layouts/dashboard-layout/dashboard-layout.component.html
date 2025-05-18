@@ -1,8 +1,7 @@
 <nav class="w-full">
   <mat-toolbar class="custom-toolbar flex flex-row justify-between" dir="rtl">
     <div class="flex gap-10 items-center">
-      <button mat-icon-button (click)="drawer.toggle()" class="custom-icon-button"
-              aria-label="Example icon-button with menu icon">
+      <button mat-icon-button (click)="drawer.toggle()" class="custom-icon-button" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
       <img src="/download.png" width="100" alt="">
@@ -16,94 +15,86 @@
 </nav>
 
 <mat-drawer-container class="example-container !bg-white" dir="rtl">
-  <mat-drawer
-    class="flex flex-col h-screen px-3 overflow-hidden bg-white border-r border-gray-200"
-    #drawer mode="side" dir="rtl" position="start" opened>
-
+  <mat-drawer class="flex flex-col h-screen px-3 overflow-hidden bg-white border-r border-gray-200" #drawer mode="side" dir="rtl" position="start" opened>
     <div class="flex flex-col justify-between flex-1 mt-6">
       <nav class="flex-1 space-y-1">
         <!-- الصفحة الرئيسية -->
-
         <a
-          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-          routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+          routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
           routerLink='/dashboard/'
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">home</mat-icon>
+          <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">home</mat-icon>
           <span class="mr-3 text-sm">الصفحة الرئيسية</span>
         </a>
 
         <!-- الأيتام -->
         <a
-          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-          routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+          routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
           routerLink='/dashboard/orphans'
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">child_care</mat-icon>
+          <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">child_care</mat-icon>
           <span class="mr-3 text-sm">الأيتام</span>
         </a>
 
         <!-- لائحة الارامل -->
         <a
-          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-          routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+          routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
           routerLink='/dashboard/widows'
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">view_list</mat-icon>
+          <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">view_list</mat-icon>
           <span class="mr-3 text-sm">لائحة الارامل</span>
         </a>
 
         <!-- المعوزين -->
         <a
-          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-          routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+          routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
           routerLink='/dashboard/distitutes'
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">groups</mat-icon>
+          <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">groups</mat-icon>
           <span class="mr-3 text-sm">المعوزين</span>
         </a>
 
         <!-- إدارة الأخبار -->
         <a
-          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-          routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+          routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
           routerLink='/dashboard/news'
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">campaign</mat-icon>
+          <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">campaign</mat-icon>
           <span class="mr-3 text-sm">إدارة الأخبار</span>
         </a>
 
-
         <!-- الطلبات -->
         <a
-          class="flex items-center justify-between px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-          routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+          class="flex items-center justify-between px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+          routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
           routerLink='/dashboard/requests'
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="flex items-center">
-            <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">description</mat-icon>
+            <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">description</mat-icon>
             <span class="mr-3 text-sm">الطلبات</span>
           </div>
-          <span
-            *ngIf="shouldShowDot()"
-            class="bg-red-500 rounded-full w-2.5 h-2.5"
-          ></span>
+          <span *ngIf="shouldShowDot()" class="bg-red-500 rounded-full w-2.5 h-2.5"></span>
         </a>
 
         <!-- التقويم -->
         <a
-          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-          routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+          class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+          routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
           routerLink='/dashboard/calendar'
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">calendar_today</mat-icon>
+          <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">calendar_today</mat-icon>
           <span class="mr-3 text-sm">التقويم</span>
         </a>
 
@@ -112,12 +103,12 @@
           <h4 class="px-4 mb-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">إدارة النظام</h4>
 
           <a
-            class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#f0f8ed] hover:text-[#60a953] group"
-            routerLinkActive="bg-[#f0f8ed] text-[#60a953] font-medium"
+            class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 rounded-lg hover:bg-[#e0f4fb] group"
+            routerLinkActive="bg-[#e0f4fb] text-[#0780bc] font-medium"
             routerLink='/dashboard/admins'
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <mat-icon class="text-gray-500 group-hover:text-[#60a953] group-[.router-link-active]:text-[#60a953]">admin_panel_settings</mat-icon>
+            <mat-icon class="text-gray-500 group-hover:text-[#0780bc] group-[.router-link-active]:text-[#0780bc]">admin_panel_settings</mat-icon>
             <span class="mr-3 text-sm">المشرفون</span>
           </a>
         </div>
@@ -127,7 +118,7 @@
   </mat-drawer>
 
   <mat-drawer-content class="!relative !p-0">
-    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="ball-clip-rotate" [fullScreen]="false">
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate" [fullScreen]="false">
       <p style="color: white">جار التحميل...</p>
     </ngx-spinner>
     <router-outlet></router-outlet>

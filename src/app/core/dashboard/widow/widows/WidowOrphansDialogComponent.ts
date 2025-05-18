@@ -16,7 +16,7 @@ import {MatTableModule} from '@angular/material/table';
   ],
   template: `
     <div class="dialog-container">
-      <h2 mat-dialog-title class="dialog-title">أيتام الأرملة</h2>
+      <h2 class="dialog-title">أيتام الأرملة</h2>
       <mat-dialog-content dir="rtl">
         <div *ngIf="data.orphans.length > 0; else noOrphans">
           <table mat-table [dataSource]="data.orphans" class="mat-elevation-z8 orphan-table">

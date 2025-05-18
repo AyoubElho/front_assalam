@@ -4,66 +4,95 @@
     <button
       *ngFor="let status of statuses"
       (click)="onStatusChange({ value: status })"
-      [ngClass]="{
-      'bg-indigo-600 text-white': selectedStatus === status,
-      'bg-gray-100 text-gray-700 hover:bg-gray-200': selectedStatus !== status
-    }"
-      class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow flex items-center gap-1"
+      [ngClass]="[
+    selectedStatus === status ? getStatusColor(status) + ' text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+    'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow flex items-center gap-1'
+  ]"
     >
       {{ formatStatus(status) }}
       <span
-        class="ml-1 bg-white text-indigo-600 rounded-full px-2 py-0.5 text-xs font-bold shadow"
+        class="ml-1 bg-white text-red-400 rounded-full px-2 py-0.5 text-xs font-bold shadow"
       >
-      {{ statusCounts[status] || 0 }}
-    </span>
+    {{ statusCounts[status] || 0 }}
+  </span>
     </button>
+
   </div>
 
-
   <!-- Table displaying filtered requests -->
-  <div class="relative flex flex-col w-full text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+  <div class="relative flex flex-col w-full text-gray-700 bg-white shadow-md rounded-lg overflow-hidden bg-clip-border">
     <table class="w-full text-right table-auto min-w-max text-slate-800">
       <thead>
-      <tr class="bg-slate-50 border-b border-slate-300">
-        <th class="p-4"><p class="block text-sm font-normal leading-none text-slate-500">الإسم</p></th>
-        <th class="p-4"><p class="block text-sm font-normal leading-none text-slate-500">نوع الطلب</p></th>
-        <th class="p-4"><p class="block text-sm font-normal leading-none text-slate-500">الحالة</p></th>
-        <th class="p-4"><p class="block text-sm font-normal leading-none text-slate-500">تاريخ الإرسال</p></th>
-        <th class="p-4"><p class="block text-sm font-normal leading-none text-slate-500">الوقت</p></th>
+      <tr class="bg-slate-50 border-b border-slate-300 rounded-t-lg">
+        <th class="p-4">
+          <p class="block text-sm font-normal leading-none text-slate-500">الإسم</p>
+        </th>
+        <th class="p-4">
+          <p class="block text-sm font-normal leading-none text-slate-500">نوع الطلب</p>
+        </th>
+        <th class="p-4">
+          <p class="block text-sm font-normal leading-none text-slate-500">الحالة</p>
+        </th>
+        <th class="p-4">
+          <p class="block text-sm font-normal leading-none text-slate-500">تاريخ الإرسال</p>
+        </th>
+        <th class="p-4">
+          <p class="block text-sm font-normal leading-none text-slate-500">الوقت</p>
+        </th>
         <th class="p-4"></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let request of filteredRequests" class="hover:bg-slate-50 border-b border-slate-200">
+      <tr
+        *ngFor="let request of filteredRequests; let i = index"
+        class="hover:bg-slate-50 border-b border-slate-200"
+        [ngClass]="{ 'rounded-b-lg': i === filteredRequests.length - 1 }"
+      >
         <td class="p-2">
-          <p-avatar class="!text-[18px]"
-                    label="{{ request?.application_type === 'يتيم_أرملة' ? nameTransform(request?.widow?.name) : nameTransform(request?.destitute?.name) }}"
-                    styleClass="mr-2"
-                    size="large" [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }"
-                    shape="circle"></p-avatar>
-        </td>
-        <td class="p-4"><p class="block text-sm text-slate-800">{{ request?.application_type }}</p></td>
-        <td class="p-4">
-          <p-tag [value]="formatStatus(request?.status)" [severity]="getSeverity(request?.status)"></p-tag>
-        </td>
-        <td class="p-4">
-          <p class="block text-sm text-slate-800">{{ request?.updated_at | date:'yyyy/MM/dd' }}</p>
+          <p-avatar
+            class="!text-[18px]"
+            label="{{ request?.application_type === 'يتيم_أرملة' ? nameTransform(request?.widow?.name) : nameTransform(request?.destitute?.name) }}"
+            styleClass="mr-2"
+            size="large"
+            [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }"
+            shape="circle"
+          ></p-avatar>
         </td>
         <td class="p-4">
-          <p class="block text-sm text-slate-800">
-            {{ request?.updated_at | date:'HH:mm:ss' }}
-          </p>
+          <p class="block text-sm text-slate-800">{{ request?.application_type }}</p>
         </td>
         <td class="p-4">
-          <p-button [rounded]="true" severity="secondary" [text]="true" [raised]="true" icon="pi pi-arrow-left"
-                    (click)="goToDetails(request.id)"></p-button>
+          <p-tag
+            [value]="formatStatus(request?.status)"
+            [styleClass]="getStatusColor(request?.status)"
+            class="text-white px-2 py-1 rounded-full text-xs font-bold"
+          ></p-tag>
+
+        </td>
+        <td class="p-4">
+          <p class="block text-sm text-slate-800">{{ request?.updated_at | date: 'yyyy/MM/dd' }}</p>
+        </td>
+        <td class="p-4">
+          <p class="block text-sm text-slate-800">{{ request?.updated_at | date: 'HH:mm:ss' }}</p>
+        </td>
+        <td class="p-4">
+          <p-button
+            [rounded]="true"
+            severity="secondary"
+            [text]="true"
+            [raised]="true"
+            icon="pi pi-arrow-left"
+            (click)="goToDetails(request.id)"
+          ></p-button>
         </td>
       </tr>
       </tbody>
     </table>
 
-    <div *ngIf="filteredRequests.length === 0"
-         class="text-center flex items-center justify-center h-72 text-gray-600 bg-white">
+    <div
+      *ngIf="filteredRequests.length === 0"
+      class="text-center flex items-center justify-center h-72 text-gray-600 bg-white"
+    >
       <p>لا توجد طلبات حالياً تحت هذا الفلتر.</p>
     </div>
   </div>

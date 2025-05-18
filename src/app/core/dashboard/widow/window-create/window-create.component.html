@@ -1,7 +1,6 @@
-<div class="w-full min-h-full flex flex-col space-y-8 p-6 rounded-xl bg-gray-50" dir="rtl">
+<div class="w-full min-h-full flex flex-col space-y-8 p-6 rounded-xl" dir="rtl">
   <!-- Header Section -->
-  <div class="flex justify-between items-center">
-    <h1 class="text-3xl font-bold back text-gray-800">معلومات الأرملة</h1>
+  <div class="flex justify-end items-center">
     <p-button
       icon="pi pi-angle-left"
       [rounded]="true"
@@ -13,13 +12,13 @@
   </div>
 
   <!-- Widow Form -->
-  <form class="space-y-6" [formGroup]="widowForm" (ngSubmit)="submitForm()">
+  <form class="space-y-6 mt-4" [formGroup]="widowForm" (ngSubmit)="submitForm()">
     <!-- Debug Form (remove in production) -->
     <pre *ngIf="false">{{ widowForm.value | json }}</pre>
 
     <!-- Widow Information Section -->
     <div class="bg-white rounded-xl shadow-md p-6 space-y-6">
-      <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200">المعلومات الشخصية</h2>
+      <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200"> معلومات الأرملة </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Full Name -->
@@ -137,13 +136,14 @@
 
     <!-- Children Section -->
     <div class="bg-white rounded-xl shadow-md p-6 space-y-6 border border-gray-100">
-      <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200 flex items-center">
+      <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200 flex items-center gap-2">
         <mat-icon class="mr-2 text-blue-500" style="font-size: 24px;">child_care</mat-icon>
         معلومات الأبناء
       </h2>
 
       <div formArrayName="children" *ngFor="let child of children.controls; let i = index">
-        <div [formGroupName]="i" class="bg-gray-50 border border-gray-200 p-5 rounded-lg mb-4 shadow-sm hover:shadow-md transition-shadow">
+        <div [formGroupName]="i"
+             class="bg-gray-50 border border-gray-200 p-5 rounded-lg mb-4 shadow-sm hover:shadow-md transition-shadow">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-gray-700 flex items-center">
               <mat-icon class="mr-2 text-blue-400" style="font-size: 20px;">person_outline</mat-icon>
@@ -161,10 +161,11 @@
             </button>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="flex justify-between items-center gap-6">
             <!-- Child Full Name -->
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">الاسم الكامل <span class="text-red-500">*</span></label>
+            <div class="w-1/3">
+              <label class="block text-sm font-medium text-gray-600 mb-2">الاسم الكامل <span
+                class="text-red-500">*</span></label>
               <input
                 type="text"
                 pInputText
@@ -194,8 +195,9 @@
             </div>
 
             <!-- Child Birth Date -->
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-2">تاريخ الميلاد <span class="text-red-500">*</span></label>
+            <div class="w-1/3">
+              <label class="block text-sm font-medium text-gray-600 mb-2">تاريخ الميلاد <span
+                class="text-red-500">*</span></label>
               <p-calendar
                 formControlName="birth_date"
                 [showIcon]="true"
@@ -221,14 +223,24 @@
             </div>
 
             <!-- Is Studying Checkbox -->
-            <div class="flex items-center md:mt-7">
-              <mat-checkbox
-                formControlName="is_studying"
-                color="primary"
-                class="mr-2 transform scale-110"
-              ></mat-checkbox>
-              <label class="text-sm font-medium text-gray-600">هل يدرس؟</label>
+            <div class="w-1/3 flex flex-col">
+              <label class="block text-sm font-medium text-gray-600 mb-2">
+                هل يدرس؟<span class="text-red-500">*</span>
+              </label>
+              <div>
+                <mat-checkbox
+                  formControlName="is_studying"
+                  color="primary"
+                  class=" transform scale-110"
+                ></mat-checkbox>
+
+                <span class="mt-2 text-sm font-semibold text-blue-600">
+    {{ child.get('is_studying')?.value ? 'نعم' : 'لا' }}
+  </span>
+              </div>
+
             </div>
+
           </div>
         </div>
       </div>
@@ -240,16 +252,16 @@
       <!-- Add Child Button -->
       <button
         type="button"
-        class="flex items-center text-blue-600 hover:text-blue-800 text-sm font-semibold mt-2 p-2 rounded-lg hover:bg-blue-50 transition-colors"
+        class="flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm font-semibold mt-2 p-2 rounded-lg hover:bg-blue-50 transition-colors"
         (click)="addChild()"
       >
-        <mat-icon class="mr-2 text-blue-600 bg-blue-100 p-1 rounded-full" style="font-size: 18px;">add</mat-icon>
+        <mat-icon class=" text-blue-600 bg-blue-100 p-1 rounded-full " style="font-size: 18px; direction: rtl">add</mat-icon>
         إضافة ابن
       </button>
     </div>
 
     <!-- Submit Button -->
-    <div class="flex justify-end mt-6">
+    <div class="flex justify-start mt-6">
       <p-button
         type="submit"
         label="حفظ البيانات"

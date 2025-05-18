@@ -70,17 +70,25 @@ export class RequestReviewComponent implements OnInit {
     this.router.navigate(['/dashboard/request/detaill/', id]);
   }
 
-  getSeverity(status: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' | 'contrast' | undefined {
-    if (status === 'قيد_مراجعة_المسؤول' || status === 'قيد_المراجعة') {
-      return 'warn';
-    } else if (status === 'مقبول') {
-      return 'success';
-    } else if (status === 'مرفوض' || status === 'غير_مكتمل') {
-      return 'danger';
-    } else {
-      return 'info';
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'قيد_مراجعة_المسؤول':
+      case 'قيد_المراجعة':
+        return 'bg-yellow-500';
+      case 'مقبول':
+        return 'bg-green-600';
+      case 'مرفوض':
+      case 'غير_مكتمل':
+        return 'bg-red-600';
+      case 'قيد_الانتظار':
+        return 'bg-blue-500';
+      case 'تمت_إعادة_رفع_الملفات':
+        return 'bg-purple-600';
+      default:
+        return 'bg-gray-500';
     }
   }
+
 
   filterRequests(): void {
     this.filteredRequests = this.requests.filter(

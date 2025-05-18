@@ -3,6 +3,10 @@
   border-top-right-radius: 19px !important;
 }
 
+::ng-deep .p-select-option{
+  direction: rtl;
+}
+
 ::ng-deep .p-datatable-tbody {
   border-bottom-left-radius: 19px !important;
   border-bottom-right-radius: 19px !important;

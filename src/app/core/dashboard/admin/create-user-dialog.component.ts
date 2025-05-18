@@ -33,57 +33,57 @@ import {MatSelectModule} from '@angular/material/select';
     MatButton
   ],
   template: `
-    <div class="p-6 w-full max-w-[500px] bg-white rounded-xl font-['Inter'] shadow-lg">
-      <h2 class="mb-6 text-2xl font-semibold text-gray-900">Create New User</h2>
+    <div dir="rtl" class="p-6 w-full max-w-[500px] bg-white rounded-xl font-['Inter'] shadow-lg">
+      <h2 class="mb-6 text-center !text-[#3f51b5] text-2xl font-semibold ">إنشاء مستخدم جديد</h2>
       <form [formGroup]="userForm" class="grid gap-5">
-        <!-- Name -->
+        <!-- الاسم -->
         <mat-form-field appearance="fill" class="w-full">
-          <mat-label>Full Name</mat-label>
+          <mat-label>الاسم الكامل</mat-label>
           <input matInput formControlName="name" required>
           <mat-error *ngIf="userForm.get('name')?.hasError('required') && userForm.get('name')?.touched">
-            Name is required
+            الاسم مطلوب
           </mat-error>
         </mat-form-field>
 
-        <!-- Email -->
+        <!-- البريد الإلكتروني -->
         <mat-form-field appearance="fill" class="w-full">
-          <mat-label>Email</mat-label>
+          <mat-label>البريد الإلكتروني</mat-label>
           <input matInput type="email" formControlName="email" required>
           <mat-error *ngIf="userForm.get('email')?.hasError('required') && userForm.get('email')?.touched">
-            Email is required
+            البريد الإلكتروني مطلوب
           </mat-error>
           <mat-error *ngIf="userForm.get('email')?.hasError('email') && userForm.get('email')?.touched">
-            Please enter a valid email
+            يرجى إدخال بريد إلكتروني صحيح
           </mat-error>
         </mat-form-field>
 
-        <!-- Birth Date -->
+        <!-- تاريخ الميلاد -->
         <mat-form-field appearance="fill" class="w-full">
-          <mat-label>Birth Date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="birth_date" placeholder="Choose a date">
+          <mat-label>تاريخ الميلاد</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="birth_date" placeholder="اختر تاريخ">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
           <mat-error *ngIf="userForm.get('birth_date')?.hasError('required') && userForm.get('birth_date')?.touched">
-            Birth date is required
+            تاريخ الميلاد مطلوب
           </mat-error>
         </mat-form-field>
 
-        <!-- Role -->
+        <!-- الدور -->
         <mat-form-field appearance="fill" class="w-full">
-          <mat-label>Role</mat-label>
+          <mat-label>الدور</mat-label>
           <mat-select formControlName="role" required>
-            <mat-option value="">-- Select Role --</mat-option>
-            <mat-option value="admin">Admin</mat-option>
-            <mat-option value="writer">Writer</mat-option>
+            <mat-option value="">-- اختر دور --</mat-option>
+            <mat-option value="admin">مشرف</mat-option>
+            <mat-option value="writer">كاتب</mat-option>
           </mat-select>
           <mat-error *ngIf="userForm.get('role')?.hasError('required') && userForm.get('role')?.touched">
-            Role is required
+            الدور مطلوب
           </mat-error>
         </mat-form-field>
 
-        <!-- Password -->
+        <!-- كلمة المرور -->
         <mat-form-field appearance="fill" class="w-full">
-          <mat-label>Password</mat-label>
+          <mat-label>كلمة المرور</mat-label>
           <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
           <button mat-icon-button matSuffix type="button" (click)="generatePassword()">
             <mat-icon>autorenew</mat-icon>
@@ -92,29 +92,29 @@ import {MatSelectModule} from '@angular/material/select';
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error *ngIf="userForm.get('password')?.hasError('required') && userForm.get('password')?.touched">
-            Password is required
+            كلمة المرور مطلوبة
           </mat-error>
           <mat-error *ngIf="userForm.get('password')?.hasError('minlength') && userForm.get('password')?.touched">
-            Password must be at least 8 characters long
+            يجب أن تتكون كلمة المرور من 8 أحرف على الأقل
           </mat-error>
           <mat-error *ngIf="userForm.get('password')?.hasError('pattern') && userForm.get('password')?.touched">
-            Password must include uppercase, lowercase, and a number
+            يجب أن تحتوي كلمة المرور على أحرف كبيرة وصغيرة وأرقام
           </mat-error>
         </mat-form-field>
 
       </form>
 
-      <!-- Actions -->
+      <!-- الأزرار -->
       <div class="flex justify-end gap-3 mt-6">
-        <button mat-stroked-button (click)="dialogRef.close()">Cancel</button>
+        <button mat-stroked-button (click)="dialogRef.close()">إلغاء</button>
         <button mat-raised-button color="primary" [disabled]="userForm.invalid" (click)="createUser()">
-          Create User
+          إنشاء مستخدم
         </button>
       </div>
     </div>
 
   `,
-  styles: [] // Empty styles array since we're using Tailwind
+  styles: [] // مصفوفة الأنماط فارغة حيث نستخدم Tailwind
 })
 export class CreateUserDialogComponent {
   userForm: FormGroup;
@@ -144,7 +144,7 @@ export class CreateUserDialogComponent {
     const digits = '0123456789';
     const allChars = uppercase + lowercase + digits;
 
-    // Ensure at least one of each required character
+    // التأكد من وجود حرف كبير وصغير ورقم على الأقل
     const getRandom = (chars: string) => chars[Math.floor(Math.random() * chars.length)];
     const requiredChars = [
       getRandom(uppercase),
@@ -152,13 +152,13 @@ export class CreateUserDialogComponent {
       getRandom(digits)
     ];
 
-    // Generate remaining characters randomly
-    const remainingLength = 8; // total desired length
+    // توليد بقية الأحرف عشوائياً
+    const remainingLength = 8; // الطول الكامل المطلوب
     for (let i = requiredChars.length; i < remainingLength; i++) {
       requiredChars.push(getRandom(allChars));
     }
 
-    // Shuffle the characters to make the password unpredictable
+    // خلط الأحرف لجعل كلمة المرور غير متوقعة
     const shuffled = requiredChars.sort(() => 0.5 - Math.random()).join('');
 
     this.userForm.patchValue({password: shuffled});
@@ -167,8 +167,6 @@ export class CreateUserDialogComponent {
   }
 
   createUser(): void {
-
-
     if (this.userForm.invalid) return;
 
     const newUser = this.userForm.value;
@@ -176,15 +174,14 @@ export class CreateUserDialogComponent {
     const formattedDate = rawDate.toISOString().split('T')[0]; // "2022-05-08"
     const payload = {
       ...newUser,
-      birth_date: formattedDate, // 👈 inject formatted date here
+      birth_date: formattedDate, // 👈 حقن التاريخ المنسق هنا
       password_confirmation: newUser.password
     }
     console.log(payload)
     this.authService.register(payload).then(() => {
       this.dialogRef.close(true);
     }).catch(err => {
-      console.error('Error creating user:', err);
+      console.error('خطأ في إنشاء المستخدم:', err);
     });
   }
-
 }

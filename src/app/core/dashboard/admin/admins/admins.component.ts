@@ -18,31 +18,33 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
+import {AvatarComponent} from "../../../avatar-component/avatar-component.component";
 
 @Component({
   selector: 'app-admins',
   templateUrl: './admins.component.html',
-  imports: [
-    MatButton,
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatCell,
-    MatCellDef,
-    TitleCasePipe,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatIconModule,
-    MatRowDef,
-    DatePipe,
-    MatIconButton,
-    MatTooltipModule,
-    NgClass,
-    FormsModule,
-    DropdownModule
-  ],
+    imports: [
+        MatButton,
+        MatTable,
+        MatColumnDef,
+        MatHeaderCell,
+        MatHeaderCellDef,
+        MatCell,
+        MatCellDef,
+        TitleCasePipe,
+        MatHeaderRow,
+        MatHeaderRowDef,
+        MatRow,
+        MatIconModule,
+        MatRowDef,
+        DatePipe,
+        MatIconButton,
+        MatTooltipModule,
+        NgClass,
+        FormsModule,
+        DropdownModule,
+        AvatarComponent
+    ],
   styleUrls: ['./admins.component.css']
 })
 export class AdminsComponent implements OnInit {

@@ -22,6 +22,9 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {MatIcon} from '@angular/material/icon';
 import {NgxSpinnerModule, NgxSpinnerService} from 'ngx-spinner';
 import {BarChartModule} from "@swimlane/ngx-charts";
+import {DropdownModule} from 'primeng/dropdown';
+import {FormsModule} from '@angular/forms';
+import {Select} from 'primeng/select';
 
 
 @Component({
@@ -34,6 +37,10 @@ import {BarChartModule} from "@swimlane/ngx-charts";
     MatSort,
     MatSortHeader,
     BarChartModule,
+    DropdownModule,
+    FormsModule,
+    Select,
+    Button,
   ],
   providers: [ConfirmationService, MessageService],
   styleUrls: ['./orphanes.component.css']
@@ -46,11 +53,16 @@ export class OrphanesComponent implements AfterViewInit, OnInit {
   constructor(private spinner: NgxSpinnerService) {
   }
 
-  displayedColumns: string[] = ['full_name', 'age','birth_date', 'is_studying', 'widowName'];
+  displayedColumns: string[] = ['full_name', 'age', 'birth_date', 'is_studying', 'widowName'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  studyOptions = [
+    {label: 'نعم', value: 1},
+    {label: 'لا', value: 0}
+  ];
+
 
   async ngOnInit(): Promise<void> {
     this.spinner.show();
@@ -78,6 +90,16 @@ export class OrphanesComponent implements AfterViewInit, OnInit {
     }
   }
 
+  onStudyStatusChange(orphan: any) {
+    this.orphanService.updateIsStudyingStatus(orphan.id, orphan.is_studying)
+      .then(res => {
+        console.log('Status updated:', res.data);
+      })
+      .catch(err => {
+        console.error('Failed to update:', err);
+      });
+
+  }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {

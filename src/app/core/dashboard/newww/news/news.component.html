@@ -1,47 +1,46 @@
-<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8" dir="rtl">
-  <!-- Header Section (same as your original) -->
-  <div class="max-w-6xl mx-auto mb-12 px-4">
-    <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 sm:gap-6">
+<div class="min-h-[calc(100vh-70px)]  py-8 px-4 sm:px-6 lg:px-8" dir="rtl">
+  <div class="p-5 border-b rounded-tr-lg rounded-tl-lg border-gray-200 bg-gray-100 flex justify-between w-full ">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 sm:gap-6">
       <!-- Search bar -->
-      <div class="w-full sm:w-96">
-        <div class="relative">
-          <mat-icon
-            class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-lg pointer-events-none"
-            style="transform: translateY(-50%); top: 50%;"
-          >
-            search
-          </mat-icon>
-          <input
-            type="text"
-            [(ngModel)]="searchText"
-            placeholder="ابحث عن المقالات..."
-            class="w-full pr-12 pl-4 py-3.5 bg-white border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-300 hover:border-gray-400 focus:shadow-md"
-          />
-        </div>
-      </div>
-
-      <!-- Buttons -->
-      <div class="flex gap-4 flex-wrap sm:flex-nowrap">
-        <button
-          (click)="openCreateCategoryDialog()"
-          class="flex items-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow transition duration-200"
+      <div class="relative">
+        <mat-icon
+          class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-lg pointer-events-none"
+          style="transform: translateY(-50%); top: 50%;"
         >
-          <mat-icon>category</mat-icon>
-          <span>صنف جديد</span>
-        </button>
-
-        <button routerLink="/dashboard/post/create"
-                class="flex items-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow transition duration-200"
-        >
-          <mat-icon>post_add</mat-icon>
-          <span>مقال جديد</span>
-        </button>
+          search
+        </mat-icon>
+        <input
+          dir="ltr"
+          class="w-66 bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pr-10 pl-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+          placeholder="Search..."
+        />
       </div>
+    </div>
+
+    <div class="flex gap-4 flex-wrap flex-row-reverse sm:flex-nowrap">
+
+      <p-button
+        (click)="openCreateCategoryDialog()"
+        label="صنف جديد"
+        icon="pi pi-folder"
+        severity="secondary"
+        [raised]="true">
+      </p-button>
+
+      <p-button
+        routerLink="/dashboard/post/create"
+        label="خبر جديد"
+        icon="pi pi-plus"
+        severity="contrast"
+        [raised]="true">
+      </p-button>
+
     </div>
   </div>
 
+
   <!-- Table Section -->
-  <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+  <div class="w-full  mx-auto bg-white shadow-md overflow-hidden">
     <div class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">

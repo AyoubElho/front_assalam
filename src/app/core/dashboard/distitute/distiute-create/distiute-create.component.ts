@@ -75,6 +75,7 @@ export class DistiuteCreateComponent {
     }
   }
 
+
   goBack() {
     console.log('Going back');
   }

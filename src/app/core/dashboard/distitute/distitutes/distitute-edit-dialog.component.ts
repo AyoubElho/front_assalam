@@ -20,7 +20,7 @@ import {DistituteService} from '../../../services/service/DistituteService';
     MatDialogTitle
   ],
   template: `
-    <h2 mat-dialog-title class="text-center">تعديل معلومات المستفيدة</h2>
+    <h2 class="text-center mt-4 !text-[#3f51b5] text-2xl font-semibold ">تعديل معلومات المستفيدة</h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" dir="rtl" style="padding: 20px;">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>الاسم الكامل</mat-label>
@@ -34,7 +34,7 @@ import {DistituteService} from '../../../services/service/DistituteService';
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>رقم الهاتف</mat-label>
-        <input matInput formControlName="tel" />
+        <input matInput formControlName="tel" dir="ltr" class="!text-end"  />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">

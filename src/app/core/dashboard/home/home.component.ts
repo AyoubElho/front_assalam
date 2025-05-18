@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,7 @@ import { OrphanService } from '../../services/service/OrphanService';
 import { DonationService } from '../../services/service/DonationService';
 import { RequestService } from '../../services/service/RequestService';
 import { WidowService } from '../../services/service/WidowService';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ import { WidowService } from '../../services/service/WidowService';
   imports: [NgOptimizedImage, NgxChartsModule, MatIconModule, RouterLink]
 })
 export class HomeComponent implements OnInit {
+  private spinner = inject(NgxSpinnerService);
 
   // Dashboard Stats
   countOrphan: number = 0;
@@ -36,6 +38,7 @@ export class HomeComponent implements OnInit {
 
   // Lifecycle
   ngOnInit() {
+    this.spinner.show();
     this.loadOrphanCount();
     this.loadWidowCount();
     this.loadDonationsData();
@@ -75,6 +78,8 @@ export class HomeComponent implements OnInit {
     this.requestService.getAllRequests().then(response => {
       const requests = response.data;
       this.requestsByStatus = this.aggregateRequestsByStatus(requests);
+    }).finally(() => {
+      this.spinner.hide(); // Ensure hide is always called
     });
   }
 

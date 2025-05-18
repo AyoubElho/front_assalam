@@ -1,26 +1,26 @@
 <p-confirmDialog></p-confirmDialog>
-
-<div class="p-5">
-  <h1 class="text-3xl font-bold">لائحة الارامل</h1>
-  <div class="shadow-xs mt-10 rounded-lg p-4 bg-white" dir="rtl">
-    <div class="flex flex-row-reverse justify-between">
-      <div class="flex flex-row justify-end gap-3">
+<section class="py-8 px-4 sm:px-6 lg:px-8">
+  <div class="p-5 border-b rounded-tr-lg rounded-tl-lg border-gray-200 bg-gray-100 flex justify-between">
+    <h1 class="text-3xl font-bold">لائحة الارامل</h1>
+    <div class="flex flex-row justify-end items-center gap-3">
+      <div>
         @if (role == 'admin' || role == 'super_admin') {
           <p-button
             label="تحميل كـ CSV"
             icon="pi pi-download"
             class="ml-2"
             [disabled]="this.dataSource.data.length==0"
+            [severity]="'info'"
             (click)="exportToCSV()"
-            [severity]="getExportButtonColor()"
           ></p-button>
         }
-
+      </div>
+      <div class="flex items-center gap-2.5">
         @if (role != 'user' && role != 'writer') {
-          <div class="mb-4">
+          <div>
             <p-button
-              routerLink="/dashboard/widow/create"
               class="back"
+              routerLink="/dashboard/widow/create"
               icon="pi pi-plus"
               [rounded]="true"
               [text]="true"
@@ -28,97 +28,114 @@
             ></p-button>
           </div>
         }
+        <div class="w-full max-w-sm min-w-[200px]">
+          <div class="relative flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                 class="absolute w-5 h-5 top-2.5 left-2.5 text-slate-600">
+              <path fill-rule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+                    clip-rule="evenodd"/>
+            </svg>
 
-        <div>
-          <div class="w-full max-w-sm min-w-[200px]">
-            <div class="relative flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                   class="absolute w-5 h-5 top-2.5 left-2.5 text-slate-600">
-                <path fill-rule="evenodd"
-                      d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                      clip-rule="evenodd"/>
-              </svg>
-
-              <input
-                (keyup)="applyFilter($event)"
-                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                placeholder="Search..."
-              />
-            </div>
+            <input
+              (keyup)="applyFilter($event)"
+              class="w-66  bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+              placeholder="Search..."
+            />
           </div>
         </div>
       </div>
-      <div class="mb-4 flex items-center gap-2">
+
+    </div>
+  </div>
+  <div>
+    <div class="flex justify-between px-5 pt-4 items-center  bg-white">
+      <div class="space-x-2">
         <label class="font-bold text-slate-700">الحالة:</label>
-        <p-dropdown
+        <p-select
           [options]="supportOptions"
           [(ngModel)]="selectedSupport"
+          size="small"
           optionLabel="label"
           optionValue="value"
           (onChange)="filterBySupport($event)"
           [style]="{'minWidth': '150px'}"
           [panelStyle]="{'text-align': 'right', 'direction': 'rtl'}"
           placeholder="الكل">
-        </p-dropdown>
+        </p-select>
       </div>
     </div>
+    <div class="shadow-xs rounded-br-lg rounded-bl-lg px-4 pt-4 bg-white" dir="rtl">
 
-    <!-- Rest of your table code remains the same -->
-    <table class="!bg-white !text-center" mat-table [dataSource]="dataSource" matSort
-           (matSortChange)="announceSortChange($event)">
+      <table class="!bg-white !text-center" mat-table [dataSource]="dataSource" matSort
+             (matSortChange)="announceSortChange($event)">
 
-      <!-- Your table columns remain unchanged -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> الاسم</th>
-        <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
-      </ng-container>
+        <!-- Your table columns remain unchanged -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> الاسم</th>
+          <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="cin">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cin"> رقم البطاقة</th>
-        <td mat-cell *matCellDef="let element"> {{ element.cin }}</td>
-      </ng-container>
+        <ng-container matColumnDef="cin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cin"> رقم البطاقة</th>
+          <td mat-cell *matCellDef="let element"> {{ element.cin }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="tel">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by tel"> الهاتف</th>
-        <td mat-cell dir="ltr" *matCellDef="let element"> {{ element.tel }}</td>
-      </ng-container>
-      <ng-container matColumnDef="countOrphan">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">الأيتام</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="openOrphansDialog(element)" *ngIf="element.countOrphan > 0">
-            <mat-icon>visibility</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="is_supported">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">مدعومة</th>
-        <td mat-cell *matCellDef="let element">{{ element.is_supported == 1 ? 'نعم' : 'لا' }}</td>
-      </ng-container>
+        <ng-container matColumnDef="tel">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by tel"> الهاتف</th>
+          <td mat-cell dir="ltr" *matCellDef="let element"> {{ element.tel }}</td>
+        </ng-container>
+        <ng-container matColumnDef="countOrphan">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">الأيتام</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="openOrphansDialog(element)"
+                    *ngIf="element.countOrphan > 0">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="created_at">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by created_at"> تاريخ الإضافة
-        </th>
-        <td mat-cell *matCellDef="let element"> {{ element.created_at | date:'yyyy-MM-dd' }}</td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> الإجراءات</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="editWidow(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="deleteWidow(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by age">السن</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.age }} سنة
+          </td>
+        </ng-container>
 
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+        <ng-container matColumnDef="is_supported">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">مدعومة</th>
+          <td mat-cell *matCellDef="let element">{{ element.is_supported == 1 ? 'نعم' : 'لا' }}</td>
+        </ng-container>
 
-    <mat-paginator class="!bg-white" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                   aria-label="Select page of widows">
-    </mat-paginator>
+        <ng-container matColumnDef="created_at">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by created_at"> تاريخ
+            الإضافة
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.created_at | date:'yyyy-MM-dd' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> الإجراءات</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="editWidow(element)">
+              <mat-icon class="!text-green-500">edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteWidow(element)">
+              <mat-icon class="!text-red-500">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator class="!bg-white" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                     aria-label="Select page of widows">
+      </mat-paginator>
+    </div>
+
   </div>
-</div>
+
+</section>

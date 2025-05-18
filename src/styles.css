@@ -2,3 +2,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --color-salamgreen: #66BB6A;
+  --color-salamblue: #0277BD;
+}

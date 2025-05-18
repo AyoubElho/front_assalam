@@ -18,10 +18,9 @@ import {CategoryService} from '../../../../../services/service/CategoryService';
     MatButtonModule
   ],
   template: `
-    <div class="p-4 w-full max-w-sm" dir="rtl">
-      <h2 class="text-xl font-semibold mb-4 text-gray-800">إضافة فئة جديدة</h2>
-
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="p-4 w-full" dir="rtl">
+      <h2 class="text-center mt-4 !text-[#3f51b5] text-2xl font-semibold ">إضافة فئة جديدة</h2>
+      <form class="mt-4" [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline" class="w-full mb-4">
           <input
             matInput

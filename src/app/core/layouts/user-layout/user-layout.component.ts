@@ -17,13 +17,14 @@ import {loadStripe} from '@stripe/stripe-js';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Chip} from "primeng/chip";
 import {CountUpModule} from 'ngx-countup';
+import {AvatarComponent} from '../../avatar-component/avatar-component.component';
 
 @Component({
   selector: 'app-user-layout',
   standalone: true,
   imports: [RouterLink, AvatarModule, Menu, NgIf, RouterOutlet, MatButtonModule, MatMenuModule, MatIconModule,
     RouterLinkActive, NgxSpinnerComponent, Button, Dialog, FormsModule, ReactiveFormsModule,
-    HttpClientModule, Chip, CountUpModule],
+    HttpClientModule, Chip, CountUpModule, AvatarComponent],
   templateUrl: './user-layout.component.html',
   styleUrls: ['./user-layout.component.css']
 })

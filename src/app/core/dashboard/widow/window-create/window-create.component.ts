@@ -55,7 +55,6 @@ export class WindowCreateComponent implements OnInit {
         [this.newChild()], // initial child
         [this.minOrphans(1), this.atLeastOneStudyingOrphan()] // validators
       )
-
     });
   }
 

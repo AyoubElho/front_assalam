@@ -20,10 +20,10 @@ import { NgIf } from '@angular/common';
   providers: [provideNativeDateAdapter()],
 
   template: `
-    <h2 mat-dialog-title>تحديث معلومات الأرملة</h2>
+    <h2 class="text-center mt-4 !text-[#3f51b5] text-2xl font-semibold ">تحديث معلومات الأرملة</h2>    <
 
     <mat-dialog-content dir="rtl">
-      <form [formGroup]="form" class="flex flex-col gap-4 mt-4">
+      <form [formGroup]="form" class="flex flex-col gap-4">
         <mat-form-field appearance="fill">
           <mat-label>الاسم</mat-label>
           <input matInput formControlName="name" required>
@@ -33,7 +33,7 @@ import { NgIf } from '@angular/common';
 
         <mat-form-field appearance="fill">
           <mat-label>الهاتف</mat-label>
-          <input matInput formControlName="tel" required>
+          <input matInput formControlName="tel" dir="ltr" class="!text-end" required>
           <mat-error *ngIf="form.get('tel')?.hasError('required')">الهاتف مطلوب</mat-error>
           <mat-error *ngIf="form.get('tel')?.hasError('pattern')">رقم الهاتف غير صالح</mat-error>
         </mat-form-field>

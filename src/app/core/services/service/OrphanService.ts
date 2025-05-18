@@ -55,4 +55,14 @@ export class OrphanService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  // ✅ Update is_studying status of an orphan
+  public updateIsStudyingStatus(id: number, is_studying: number) {
+    return axios.put(
+      `${API_BASE_URL}/${id}/update-studying`,
+      { is_studying },
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }

@@ -31,6 +31,7 @@ export class UserComponent implements OnInit {
   private spinner = inject(NgxSpinnerService);
 
   donations: any = [];
+  today: Date = new Date();
 
   ngOnInit(): void {
     this.spinner.show();

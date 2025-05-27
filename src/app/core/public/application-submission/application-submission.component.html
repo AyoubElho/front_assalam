@@ -1,75 +1,7 @@
 <section dir="rtl" class="w-full min-h-[calc(100vh-80px)] py-4 bg-gray-100">
   <form [formGroup]="requestForm" (ngSubmit)="onSubmit()"
         class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg space-y-6">
-    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">تقديم طلب جديد</h1>
-
-    <h1 class="text-xl p-1 w-full text-center text-white bg-black rounded-full">معلومات الزوجة</h1>
-    <div class="space-y-2">
-      <label for="fullName" class="block text-gray-700 font-semibold">الاسم الكامل</label>
-      <input id="fullName" formControlName="name" type="text"
-             placeholder="أدخل الاسم الكامل"
-             class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
-      <div
-        *ngIf="requestForm.get('fullName')?.invalid && (requestForm.get('fullName')?.dirty || requestForm.get('fullName')?.touched)"
-        class="text-red-500 text-sm">
-        <div *ngIf="requestForm.get('fullName')?.errors?.['required']">الاسم الكامل مطلوب</div>
-      </div>
-    </div>
-
-    <!-- رقم البطاقة الوطنية -->
-    <div class="space-y-2">
-      <label for="cin" class="block text-gray-700 font-semibold">رقم البطاقة الوطنية</label>
-      <input id="cin" formControlName="cin" type="text"
-             placeholder="أدخل رقم البطاقة الوطنية"
-             class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
-      <div *ngIf="requestForm.get('cin')?.invalid && (requestForm.get('cin')?.dirty || requestForm.get('cin')?.touched)"
-           class="text-red-500 text-sm">
-        <div *ngIf="requestForm.get('cin')?.errors?.['required']">رقم البطاقة الوطنية مطلوب</div>
-        <div *ngIf="requestForm.get('cin')?.errors?.['pattern']">يجب أن يكون رقم البطاقة الوطنية صحيحاً</div>
-      </div>
-    </div>
-
-    <div class="space-y-2">
-      <label for="phone" class="block text-gray-700 font-semibold">رقم الهاتف</label>
-      <div class="flex" dir="ltr">
-    <span
-      class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-200 text-gray-700 text-sm">
-      +212
-    </span>
-        <input id="phone" formControlName="phone" type="text"
-               placeholder="6XXXXXXXX"
-               class="flex-1 bg-gray-100 text-sm text-gray-700 rounded-r-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
-      </div>
-      <div
-        *ngIf="requestForm.get('phone')?.invalid && (requestForm.get('phone')?.dirty || requestForm.get('phone')?.touched)"
-        class="text-red-500 text-sm">
-        <div *ngIf="requestForm.get('phone')?.errors?.['required']">رقم الهاتف مطلوب</div>
-        <div *ngIf="requestForm.get('phone')?.errors?.['pattern']">
-          رقم الهاتف غير صالح، أدخل 9 أرقام أو 10 أرقام تبدأ بـ 0
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-    <div class="space-y-2">
-      <label class="block text-gray-700 font-semibold">تاريخ الازدياد</label>
-      <p-datepicker
-        class="!w-full"
-        formControlName="birth_date"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        placeholder="اختَر تاريخ الازدياد"
-        inputId="icondisplay">
-      </p-datepicker>
-      <div
-        *ngIf="requestForm.get('birth_date')?.invalid && (requestForm.get('birth_date')?.dirty || requestForm.get('birth_date')?.touched)"
-        class="text-red-500 text-sm">
-        <div *ngIf="requestForm.get('birth_date')?.errors?.['required']">تاريخ الازدياد مطلوب</div>
-      </div>
-    </div>
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">تقديم طلب جديد</h1>
 
     <div class="w-full mt-4 space-y-2">
       <label for="cin" class="block text-gray-700 font-semibold">نوع الطلب</label>
@@ -90,11 +22,83 @@
     </div>
 
 
-
     @if (requestForm.controls['application_type'].value === 'يتيم_أرملة' || requestForm.controls['application_type'].value === 'أسرة_معوزة') {
-      @if (requestForm.controls['application_type'].value !== 'يتيم_أرملة') {
-        <h1 class="text-xl p-1 w-full text-center text-white bg-black rounded-full">معلومات الزوج</h1>
 
+      <h1 class="text-xl font-semibold text-white bg-teal-500 rounded-lg px-4 py-1 text-center w-full">
+        {{ requestForm.controls['application_type'].value === 'يتيم_أرملة' ? 'معلومات الارملة' : 'معلومات المعوزة' }}
+      </h1>
+
+
+
+      <div class="space-y-2">
+        <label for="fullName" class="block text-gray-700 font-semibold">الاسم الكامل</label>
+        <input id="fullName" formControlName="name" type="text"
+               placeholder="أدخل الاسم الكامل"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+        <div
+          *ngIf="requestForm.get('fullName')?.invalid && (requestForm.get('fullName')?.dirty || requestForm.get('fullName')?.touched)"
+          class="text-red-500 text-sm">
+          <div *ngIf="requestForm.get('fullName')?.errors?.['required']">الاسم الكامل مطلوب</div>
+        </div>
+      </div>
+
+      <!-- رقم البطاقة الوطنية -->
+
+      <div class="space-y-2">
+        <label for="cin" class="block text-gray-700 font-semibold">رقم البطاقة الوطنية</label>
+        <input id="cin" formControlName="cin" type="text"
+               placeholder="أدخل رقم البطاقة الوطنية"
+               class="w-full bg-gray-100 text-sm text-gray-700 rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+        <div
+          *ngIf="requestForm.get('cin')?.invalid && (requestForm.get('cin')?.dirty || requestForm.get('cin')?.touched)"
+          class="text-red-500 text-sm">
+          <div *ngIf="requestForm.get('cin')?.errors?.['required']">رقم البطاقة الوطنية مطلوب</div>
+          <div *ngIf="requestForm.get('cin')?.errors?.['pattern']">يجب أن يكون رقم البطاقة الوطنية صحيحاً</div>
+          <div *ngIf="requestForm.get('cin')?.errors?.['cinExists']">رقم البطاقة الوطنية موجود مسبقاً</div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label for="phone" class="block text-gray-700 font-semibold">رقم الهاتف</label>
+        <div class="flex" dir="ltr">
+    <span
+      class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-200 text-gray-700 text-sm">
+      +212
+    </span>
+          <input id="phone" formControlName="phone" type="text"
+                 placeholder="6XXXXXXXX"
+                 class="flex-1 bg-gray-100 text-sm text-gray-700 rounded-r-lg px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition shadow-sm placeholder:text-slate-400"/>
+        </div>
+        <div
+          *ngIf="requestForm.get('phone')?.invalid && (requestForm.get('phone')?.dirty || requestForm.get('phone')?.touched)"
+          class="text-red-500 text-sm">
+          <div *ngIf="requestForm.get('phone')?.errors?.['required']">رقم الهاتف مطلوب</div>
+          <div *ngIf="requestForm.get('phone')?.errors?.['pattern']">
+            رقم الهاتف غير صالح، أدخل 9 أرقام أو 10 أرقام تبدأ بـ 0
+          </div>
+        </div>
+      </div>
+
+
+      <div class="space-y-2">
+        <label class="block text-gray-700 font-semibold">تاريخ الازدياد</label>
+        <p-datepicker
+          class="!w-full"
+          formControlName="birth_date"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          placeholder="اختَر تاريخ الازدياد"
+          inputId="icondisplay">
+        </p-datepicker>
+        <div
+          *ngIf="requestForm.get('birth_date')?.invalid && (requestForm.get('birth_date')?.dirty || requestForm.get('birth_date')?.touched)"
+          class="text-red-500 text-sm">
+          <div *ngIf="requestForm.get('birth_date')?.errors?.['required']">تاريخ الازدياد مطلوب</div>
+        </div>
+      </div>
+      @if (requestForm.controls['application_type'].value !== 'يتيم_أرملة') {
+        <h1 class="text-xl font-semibold text-white bg-teal-500 rounded-lg px-4 py-1 text-center w-full ">
+          معلومات الزوج </h1>
         <!-- الاسم الكامل للزوج -->
         <div class="space-y-2">
           <label for="husbandName" class="block text-gray-700 font-semibold">الاسم الكامل للزوج</label>
@@ -105,6 +109,9 @@
             *ngIf="requestForm.get('husband_name')?.invalid && (requestForm.get('husband_name')?.touched || requestForm.get('husband_name')?.dirty)"
             class="text-red-500 text-sm">
             <div *ngIf="requestForm.get('husband_name')?.errors?.['required']">الاسم الكامل للزوج مطلوب</div>
+
+
+
           </div>
         </div>
 
@@ -119,6 +126,9 @@
             class="text-red-500 text-sm">
             <div *ngIf="requestForm.get('husband_cin')?.errors?.['required']">رقم البطاقة الوطنية مطلوب</div>
             <div *ngIf="requestForm.get('husband_cin')?.errors?.['pattern']">رقم غير صحيح</div>
+            <div *ngIf="requestForm.get('husband_cin')?.errors?.['husbandCinExists']" class="text-red-500 text-sm">
+              رقم بطاقة الزوج موجود مسبقاً
+            </div>
           </div>
         </div>
 
@@ -143,7 +153,8 @@
         <div class="space-y-2">
           <label for="husbandPhone" class="block text-gray-700 font-semibold">رقم الهاتف للزوج</label>
           <div class="flex" dir="ltr">
-    <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-200 text-gray-700 text-sm">
+    <span
+      class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-200 text-gray-700 text-sm">
       +212
     </span>
             <input id="husbandPhone" formControlName="husband_phone" type="text"
@@ -154,10 +165,14 @@
             *ngIf="requestForm.get('husband_phone')?.invalid && (requestForm.get('husband_phone')?.touched || requestForm.get('husband_phone')?.dirty)"
             class="text-red-500 text-sm">
             <div *ngIf="requestForm.get('husband_phone')?.errors?.['required']">رقم الهاتف مطلوب</div>
-            <div *ngIf="requestForm.get('husband_phone')?.errors?.['pattern']">رقم الهاتف غير صالح، أدخل 9 أرقام أو 10 أرقام تبدأ بـ 0</div>
+            <div *ngIf="requestForm.get('husband_phone')?.errors?.['pattern']">رقم الهاتف غير صالح، أدخل 9 أرقام أو 10
+              أرقام تبدأ بـ 0
+            </div>
           </div>
         </div>
-
+        <h1 class="text-xl font-semibold text-white bg-teal-500 rounded-lg px-4 py-1 text-center w-full ">
+          المستندات المرفقة
+        </h1>
 
         <div class="space-y-2">
           <label class="block text-gray-700 font-semibold">شهادة طبية (اداكان احد الزوجين يعاني من مرض مزمن)</label>
@@ -196,6 +211,12 @@
         </div>
 
       }
+      @if (requestForm.controls['application_type'].value === 'يتيم_أرملة') {
+        <h1 class="text-xl font-semibold text-white bg-teal-500 rounded-lg px-4 py-1 text-center w-full ">
+          المستندات المرفقة
+        </h1>
+      }
+
       <div class="space-y-2">
         <label class="block text-gray-700 font-semibold">طلب الترشيح للكفالة</label>
         <input type="file" formControlName="applicationRequest" (change)="onFileChange($event, 'applicationRequest')"
@@ -265,6 +286,7 @@
 
     }
     @if (requestForm.controls['application_type'].value === 'يتيم_أرملة') {
+
       <div class="space-y-2">
         <label class="block text-gray-700 font-semibold">
           شهادة وفاة الأب
@@ -306,16 +328,16 @@
       <div *ngIf="requestForm.controls['application_type'].value === 'يتيم_أرملة'"
            class="bg-white rounded-xl shadow-md p-6 space-y-6 border border-gray-100 mt-6">
         <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 border-gray-200 flex items-center">
-          <mat-icon class="mr-2 text-pink-500" style="font-size: 24px;">family_restroom</mat-icon>
+          <mat-icon class="ml-2 text-pink-500" style="font-size: 24px;">family_restroom</mat-icon>
           معلومات الأيتام
         </h2>
 
         <div formArrayName="orphans" *ngFor="let orphan of orphans.controls; let i = index" class="space-y-4">
           <div [formGroupName]="i"
-               class="bg-pink-50 border border-pink-100 rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow relative">
+               class="bg-teal-50 border border-teal-100 rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow relative">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-lg font-semibold text-gray-700 flex items-center">
-                <mat-icon class="mr-2 text-pink-400" style="font-size: 20px;">child_friendly</mat-icon>
+                <mat-icon class="ml-2 text-pink-400" style="font-size: 20px;">person</mat-icon>
                 اليتيم {{ i + 1 }}
               </h3>
               <button
@@ -401,11 +423,12 @@
         <button
           type="button"
           (click)="addOrphan()"
-          class="flex items-center text-pink-600 hover:text-pink-800 text-sm font-semibold p-2 rounded-lg hover:bg-pink-50 transition-colors"
+          class="flex items-center text-blue-600 hover:text-blue-800 text-sm font-semibold p-2 rounded-lg hover:bg-blue-50 transition-colors"
         >
-          <mat-icon class="mr-2 text-pink-600 bg-pink-100 p-1 rounded-full" style="font-size: 18px;">add</mat-icon>
+          <mat-icon class="ml-2 text-blue-600 bg-blue-100 p-1 rounded-full" style="font-size: 18px;">add</mat-icon>
           إضافة يتيم آخر
         </button>
+
       </div>
     }
 
@@ -414,9 +437,10 @@
     <!-- زر الإرسال -->
     <div class="pt-6">
       <button type="submit"
-              class="w-full bg-pink-700 hover:bg-pink-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all disabled:bg-gray-400 disabled:cursor-not-allowed">
+              class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all disabled:bg-gray-400 disabled:cursor-not-allowed">
         إرسال الطلب
       </button>
+
     </div>
   </form>
 </section>

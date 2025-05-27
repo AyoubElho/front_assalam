@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {AvatarModule} from 'primeng/avatar';
@@ -11,27 +11,32 @@ import {MatIconModule} from '@angular/material/icon';
 import {CategoryService} from '../../services/service/CategoryService';
 import {NgxSpinnerComponent} from 'ngx-spinner';
 import {Button} from 'primeng/button';
-import {Dialog} from 'primeng/dialog';
+import {Dialog, DialogModule} from 'primeng/dialog';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {loadStripe} from '@stripe/stripe-js';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Chip} from "primeng/chip";
 import {CountUpModule} from 'ngx-countup';
-import {AvatarComponent} from '../../avatar-component/avatar-component.component';
+import {AvatarComponent} from '../avatar-component/avatar-component.component';
+import {DonationDialogComponent} from '../donation-dialog/donation-dialog.component';
+import {DialogService, DynamicDialogModule, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-layout',
   standalone: true,
+
   imports: [RouterLink, AvatarModule, Menu, NgIf, RouterOutlet, MatButtonModule, MatMenuModule, MatIconModule,
     RouterLinkActive, NgxSpinnerComponent, Button, Dialog, FormsModule, ReactiveFormsModule,
-    HttpClientModule, Chip, CountUpModule, AvatarComponent],
+    HttpClientModule, Chip, CountUpModule, AvatarComponent,
+    DynamicDialogModule, DialogModule], // 👈 important],
   templateUrl: './user-layout.component.html',
-  styleUrls: ['./user-layout.component.css']
-})
+  styleUrls: ['./user-layout.component.css'],})
 export class UserLayoutComponent implements OnInit {
   token = localStorage.getItem('jwt');
   role = localStorage.getItem('role');
   listCategory: any = []
+  dialog = inject(MatDialog);
   categoryService = new CategoryService();
   items: MenuItem[] = [];
   user = {
@@ -40,24 +45,33 @@ export class UserLayoutComponent implements OnInit {
     pic: '',
   };
 
-  constructor(private router: Router, private authService: AuthService, private http: HttpClient) {
+  constructor(private router: Router, private authService: AuthService, private http: HttpClient
+  ) {
   }
 
-  isLoggedIn(): boolean {
+  isLoggedIn()
+    :
+    boolean {
     return !!this.token;
   }
 
-  isAdminOrWriterOrSuper(): boolean {
+  isAdminOrWriterOrSuper()
+    :
+    boolean {
     return this.role === 'admin' || this.role === 'writer' || this.role === 'super_admin';
   }
 
-  logout(): void {
+  logout()
+    :
+    void {
     localStorage.removeItem('jwt');
     localStorage.removeItem('role');
     window.location.reload();
   }
 
-  ngOnInit(): void {
+  ngOnInit()
+    :
+    void {
     console.log('Role:', this.role);  // Check role value
     this.authService.user().then(response => {
       this.user = response.data;
@@ -125,14 +139,17 @@ export class UserLayoutComponent implements OnInit {
   loading: unknown;
 
   showDialog() {
-    this.visible = true;
+    this.dialog.open(DonationDialogComponent, {
+
+       });
+
   }
 
   stripePromise = loadStripe('pk_test_51R7ib8RofECHEHo8BD6GLKXS2YpjYcKm4IeEFY48gOLMmHMTx5zPZAjB3wKSp4kpbnadjSRc8FlxVAkk9QQ4P8qy00WuWH044c');
 
 
   async submitDonation() {
-    this.loading = true; // <-- Start loading
+    this.loading = true;
 
     const stripe = await this.stripePromise;
 

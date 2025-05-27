@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {
   AbstractControl,
+  AsyncValidatorFn,
   FormArray,
   FormBuilder, FormControl,
   FormGroup,
@@ -15,7 +16,11 @@ import {RequestService} from '../../services/service/RequestService';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {MatCheckbox} from '@angular/material/checkbox';
-import { DatePickerModule } from 'primeng/datepicker';
+import {DatePickerModule} from 'primeng/datepicker';
+import {catchError, from, map, Observable, of} from 'rxjs';
+import {WidowService} from '../../services/service/WidowService';
+import {DistituteService} from '../../services/service/DistituteService';
+import {HusbandService} from '../../services/service/HusbandService';
 
 @Component({
   selector: 'app-application-submission',
@@ -39,19 +44,27 @@ import { DatePickerModule } from 'primeng/datepicker';
 export class ApplicationSubmissionComponent implements OnInit {
   user!: User;
   requestForm: FormGroup;
-  authService = new AuthService()
-  requestService = new RequestService();
 
-  constructor(private fb: FormBuilder,private datePipe: DatePipe) {
+
+  constructor(private fb: FormBuilder, private datePipe: DatePipe, private authService: AuthService,
+              private requestService: RequestService,
+              private widowsService: WidowService,
+              private distiuteService: DistituteService,
+              private husbandService: HusbandService) {
     this.requestForm = this.fb.group({
       application_type: ['', Validators.required],
       name: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^0?\d{9}$/)]],
-      cin: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+$/)]],
+      cin: ['',
+        [Validators.required, Validators.pattern(/^[A-Za-z0-9]+$/)],
+        [this.checkCinUnique('cin')]
+      ],
       birth_date: ['', Validators.required],
       husband_name: ['', Validators.required],
-      husband_cin: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+$/)]],
-      husband_phone: ['', [Validators.required, Validators.pattern(/^0?\d{9}$/)]],
+      husband_cin: ['',
+        [Validators.required, Validators.pattern(/^[A-Za-z0-9]+$/)],
+        [this.checkCinUnique('husband_cin')]
+      ],      husband_phone: ['', [Validators.required, Validators.pattern(/^0?\d{9}$/)]],
       husband_birth_date: ['', Validators.required],
       applicationRequest: [null, Validators.required],
       nationalCard: [null, Validators.required],
@@ -73,6 +86,47 @@ export class ApplicationSubmissionComponent implements OnInit {
     });
 
   }
+
+  checkCinUnique(controlName: 'cin' | 'husband_cin'): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value) {
+        return of(null);
+      }
+
+      const applicationType = control.root?.get('application_type')?.value;
+      if (!applicationType) {
+        return of(null);
+      }
+
+      if (controlName === 'cin') {
+        // For widow/destitute CIN check
+        if (applicationType === "يتيم_أرملة") {
+          return from(this.widowsService.checkCinExists(control.value)).pipe(
+            map(response => response.data.exists ? { cinExists: true } : null),
+            catchError(() => of(null))
+          );
+        } else {
+          return from(this.distiuteService.checkCinExists(control.value)).pipe(
+            map(response => response.data.exists ? { cinExists: true } : null),
+            catchError(() => of(null))
+          );
+        }
+      }
+
+      if (controlName === 'husband_cin') {
+        return from(this.husbandService.checkCinExists(control.value)).pipe(
+          map(response => response.data.exists ? { husbandCinExists: true } : null),
+          catchError(() => of(null))
+        );
+      }
+
+
+
+      // Default: no error
+      return of(null);
+    };
+  }
+
 
   formatMoroccanPhoneNumber(rawPhone: string): string {
     let formattedPhone = rawPhone.trim();
@@ -179,7 +233,7 @@ export class ApplicationSubmissionComponent implements OnInit {
         orphan.get('is_studying')?.value === true
       );
 
-      return hasStudying ? null : { noStudyingOrphan: true };
+      return hasStudying ? null : {noStudyingOrphan: true};
     };
   }
 

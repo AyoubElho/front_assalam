@@ -27,8 +27,8 @@ import {WindowCreateComponent} from './core/dashboard/widow/window-create/window
 import {PostCreateComponent} from './core/public/posts/post-create/post-create.component';
 import {PostsComponent} from './core/public/posts/posts/posts.component';
 import {PostDetaillComponent} from './core/public/posts/post-detaill/post-detaill.component';
-import {PaymentSuccessComponent} from './payment-success/payment-success.component';
-import {PaymentCancelComponent} from './payment-cancel/payment-cancel.component';
+import {PaymentSuccessComponent} from './core/payment/payment-success/payment-success.component';
+import {PaymentCancelComponent} from './core/payment/payment-cancel/payment-cancel.component';
 import {RegisterComponent} from './core/public/auth/register/register.component';
 import {ProfileComponent} from './core/public/profile/profile.component';
 import {DistitutesComponent} from './core/dashboard/distitute/distitutes/distitutes.component';

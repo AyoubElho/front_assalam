@@ -8,6 +8,7 @@ import Aura from '@primeng/themes/aura';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxEditorModule} from 'ngx-editor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {provideHttpClient} from '@angular/common/http';
 
 
 export const appConfig: ApplicationConfig = {
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
       NgxEditorModule,
       MatSnackBarModule
     ),
+    provideHttpClient(),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {

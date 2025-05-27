@@ -43,5 +43,9 @@ export class DistituteService {
       headers: this.getAuthHeaders(),
     });
   }
-
+  public checkCinExists(cin: string) {
+    return axios.get(`${API_BASE_URL}/check-cin/${cin}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

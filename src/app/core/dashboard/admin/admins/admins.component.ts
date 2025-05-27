@@ -18,7 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
-import {AvatarComponent} from "../../../avatar-component/avatar-component.component";
+import {AvatarComponent} from "../../../layouts/avatar-component/avatar-component.component";
 
 @Component({
   selector: 'app-admins',

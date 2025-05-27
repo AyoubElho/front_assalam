@@ -16,7 +16,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Toast} from 'primeng/toast';
 import {environment} from '../../../../../environments/environment';
-import {AvatarComponent} from "../../../avatar-component/avatar-component.component";
+import {AvatarComponent} from "../../../layouts/avatar-component/avatar-component.component";
 
 
 @Component({

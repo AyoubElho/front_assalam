@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxEditorModule} from 'ngx-editor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {provideHttpClient} from '@angular/common/http';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 
 export const appConfig: ApplicationConfig = {
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
       NgxEditorModule,
       MatSnackBarModule
     ),
+    provideNativeDateAdapter(),
     provideHttpClient(),
     provideAnimationsAsync(),
     providePrimeNG({

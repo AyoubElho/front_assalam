@@ -8,6 +8,8 @@ import {BarChartModule} from "@swimlane/ngx-charts";
 import {NgxFastMarqueeModule} from "ngx-fast-marquee";
 import {CountUpModule} from 'ngx-countup';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {DonationDialogComponent} from '../../layouts/donation-dialog/donation-dialog.component';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user',
@@ -15,12 +17,10 @@ import {NgxSpinnerService} from 'ngx-spinner';
   imports: [
     MatIconModule,
     NgForOf,
-    InfiniteScrollDirective,
     DatePipe,
     BarChartModule,
+    MatDialogModule,
     NgxFastMarqueeModule,
-    DecimalPipe,
-    NgIf,
     CountUpModule,
   ],
   templateUrl: './user.component.html',
@@ -32,7 +32,11 @@ export class UserComponent implements OnInit {
 
   donations: any = [];
   today: Date = new Date();
+  dialog = inject(MatDialog);
 
+  showDialog() {
+    this.dialog.open(DonationDialogComponent, {});
+  }
   ngOnInit(): void {
     this.spinner.show();
     this.donationService.getAll().then(res => {

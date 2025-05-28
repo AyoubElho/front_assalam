@@ -5,4 +5,7 @@
 @theme {
   --color-salamgreen: #66BB6A;
   --color-salamblue: #0277BD;
+
+  /* Define Tajawal font variable */
+  --font-tajawal: 'Tajawal', sans-serif;
 }

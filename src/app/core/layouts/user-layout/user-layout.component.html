@@ -1,4 +1,3 @@
-
 <header dir="rtl" class="bg-white shadow-md h-20 flex items-center px-4 sm:px-6 lg:px-16 relative z-50">
   <div class="flex items-center justify-between w-full">
 
@@ -11,44 +10,100 @@
     <nav class="hidden sm:flex items-center gap-2 md:gap-6 text-gray-700 text-sm">
 
       <!-- Common Links -->
-      <a routerLink="/" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
-         class="hover:text-blue-600">
+      <a class="hover:text-blue-600 flex items-center" routerLink="/"
+         routerLinkActive="text-blue-600 font-semibold"
+         [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">home</mat-icon>
         الرئيسية
       </a>
-      <a routerLink="/about" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
-         class="hover:text-blue-600">
-        من نحن
+
+      <a [matMenuTriggerFor]="menu"
+         (menuOpened)="isMenuOpen = true"
+         (menuClosed)="isMenuOpen = false"
+         class="hover:text-blue-600 py-2 flex flex-row items-center"
+         routerLinkActive="text-blue-600 font-semibold"
+         [routerLinkActiveOptions]="{ exact: true }">
+
+        <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">info</mat-icon>
+        تعرف علينا
+        <mat-icon [ngClass]="{ 'rotate-180': isMenuOpen, 'transition-transform': true }" class="!text-[20px] !w-[20px] !h-[20px]">
+        keyboard_arrow_down
+      </mat-icon>
       </a>
-      <a routerLink="/contact" routerLinkActive="text-blue-600 font-semibold"
-         [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600">
-        اتصل بنا
-      </a>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLinkActive="text-blue-600"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [matMenuTriggerFor]="about"
+                class="hover:text-blue-600 !font-tajawal flex items-center">
+          <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">business</mat-icon>
+          حول المؤسسة
+        </button>
+        <button mat-menu-item routerLinkActive="text-blue-600"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('supporters')">
+          <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">handshake</mat-icon>
+          الدعم والشركاء
+        </button>
+
+        <button mat-menu-item routerLinkActive="text-blue-600"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('contact')">
+          <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">contact_mail</mat-icon>
+          معلومات التواصل
+        </button>
+      </mat-menu>
+      <mat-menu #about="matMenu">
+        <button mat-menu-item routerLinkActive="text-blue-600"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('mission')">
+          <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">campaign</mat-icon>
+          رسالتنا
+        </button>
+        <button mat-menu-item routerLinkActive="text-blue-600"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('goals')">
+          <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">flag</mat-icon>
+          أهدافنا
+        </button>
+        <button mat-menu-item routerLinkActive="text-blue-600"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('values')">
+          <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">gavel</mat-icon>
+          مبادؤنا
+        </button>
+        <button mat-menu-item routerLinkActive="text-blue-600"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('sectors')">
+          <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">work</mat-icon>
+          قطاعاتنا الوظيفية
+        </button>
+      </mat-menu>
       <a routerLink="/posts" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
-         class="hover:text-blue-600">
+         class="hover:text-blue-600 flex items-center">
+        <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">newspaper</mat-icon>
         أخبار المؤسسة
       </a>
 
       <!-- Authenticated Users -->
       @if (isLoggedIn()) {
         @if (isAdminOrWriterOrSuper()) {
-          <a routerLink="/dashboard" routerLinkActive="text-blue-600 font-semibold"
-             [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600">
-            لوحة التحكم
-          </a>
-          <button mat-raised-button (click)="showDialog()" class="!bg-gradient-to-r !from-emerald-400 !to-cyan-400 !text-white">
-            <mat-icon class="!text-white">volunteer_activism</mat-icon>
+          <button mat-raised-button (click)="showDialog()"
+                  class="!bg-gradient-to-r !from-emerald-400 !to-cyan-400 !text-white">
+            <mat-icon class="!text-white !text-[20px] !w-[20px] !h-[20px]">volunteer_activism</mat-icon>
             تبرع الآن
           </button>
-
         }
 
         @if (!isAdminOrWriterOrSuper()) {
           <a routerLink="/request" routerLinkActive="text-blue-600 font-semibold"
-             [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600">
+             [routerLinkActiveOptions]="{ exact: true }" class="hover:text-blue-600 flex items-center">
+            <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">description</mat-icon>
             تقديم طلب
           </a>
-          <button mat-raised-button (click)="showDialog()" class="!bg-gradient-to-r !from-emerald-400 !to-cyan-400 !text-white">
-            <mat-icon class="!text-white">volunteer_activism</mat-icon>
+          <button mat-raised-button (click)="showDialog()"
+                  class="!bg-gradient-to-r !from-emerald-400 !to-cyan-400 !text-white">
+            <mat-icon class="!text-white !text-[20px] !w-[20px] !h-[20px]">volunteer_activism</mat-icon>
             تبرع الآن
           </button>
         }
@@ -62,12 +117,15 @@
       <!-- Guest Links -->
       <ng-container *ngIf="!isLoggedIn()">
         <a routerLink="/login">
-          <button class="!bg-salamgreen !text-white" mat-button> تسجيل الدخول
+          <button class="!bg-salamgreen !text-white flex items-center" mat-button>
+            <mat-icon class="!text-white ml-1 !text-[20px] !w-[20px] !h-[20px]">login</mat-icon>
+            تسجيل الدخول
           </button>
         </a>
         <a routerLink="/register">
-
-          <button mat-button class="!bg-salamblue !text-white"> إنشاء حساب
+          <button mat-button class="!bg-salamblue !text-white flex items-center">
+            <mat-icon class="!text-white ml-1 !text-[20px] !w-[20px] !h-[20px]">person_add</mat-icon>
+            إنشاء حساب
           </button>
         </a>
       </ng-container>
@@ -88,50 +146,113 @@
 
   <!-- Mobile Menu -->
   <div *ngIf="menuOpen"
-       class="sm:hidden absolute top-20 right-0 w-full bg-white shadow-lg px-4 py-4 flex flex-col gap-3 text-sm z-50 text-right">
+       class="sm:hidden absolute top-20 right-0 w-full bg-white shadow-lg px-4 py-4 flex flex-col gap-6 text-sm z-50 text-right">
 
     <a routerLink="/" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
-       class="block hover:bg-gray-100 rounded py-2 px-3">
+       class="block hover:bg-gray-100 rounded py-2 flex items-center">
+      <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">home</mat-icon>
       الرئيسية
     </a>
-    <a routerLink="/about" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
-       class="block hover:bg-gray-100 rounded py-2 px-3">
-      من نحن
+    <a [matMenuTriggerFor]="menu"
+       #menuTrigger="matMenuTrigger"
+       (menuOpened)="isMenuOpen = true"
+       (menuClosed)="isMenuOpen = false"
+       class="hover:text-blue-600 py-2 flex flex-row items-center"
+       routerLinkActive="text-blue-600 font-semibold"
+       [routerLinkActiveOptions]="{ exact: true }">
+
+      <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">info</mat-icon>
+      تعرف علينا
+      <mat-icon [ngClass]="{ 'rotate-180': isMenuOpen, 'transition-transform': true }" class="!text-[20px] !w-[20px] !h-[20px]">
+      keyboard_arrow_down
+    </mat-icon>
     </a>
-    <a routerLink="/contact" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
-       class="block hover:bg-gray-100 rounded py-2 px-3">
-      اتصل بنا
-    </a>
-    <a routerLink="/posts" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
-       class="block hover:bg-gray-100 rounded py-2 px-3">
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLinkActive="text-blue-600"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [matMenuTriggerFor]="about"
+              class="hover:text-blue-600 !font-tajawal flex items-center">
+        <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">business</mat-icon>
+        حول المؤسسة
+      </button>
+      <button mat-menu-item routerLinkActive="text-blue-600"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('supporters')">
+        <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">handshake</mat-icon>
+        الدعم والشركاء
+      </button>
+
+      <button mat-menu-item routerLinkActive="text-blue-600"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('contact')">
+        <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">contact_mail</mat-icon>
+        معلومات التواصل
+      </button>
+    </mat-menu>
+    <mat-menu #about="matMenu">
+      <button mat-menu-item routerLinkActive="text-blue-600"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('mission')">
+        <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">campaign</mat-icon>
+        رسالتنا
+      </button>
+      <button mat-menu-item routerLinkActive="text-blue-600"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('goals')">
+        <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">flag</mat-icon>
+        أهدافنا
+      </button>
+      <button mat-menu-item routerLinkActive="text-blue-600"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('values')">
+        <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">gavel</mat-icon>
+        مبادؤنا
+      </button>
+      <button mat-menu-item routerLinkActive="text-blue-600"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="hover:text-blue-600 !font-tajawal flex items-center" (click)="scrollToSection('sectors')">
+        <mat-icon class="ml-1 !text-[18px] !w-[18px] !h-[18px]">work</mat-icon>
+        قطاعاتنا الوظيفية
+      </button>
+    </mat-menu>
+    <a routerLink="/posts" routerLinkActive="text-blue-600 py-2 font-semibold" [routerLinkActiveOptions]="{ exact: true }"
+       class="hover:text-blue-600 flex items-center">
+      <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">newspaper</mat-icon>
       أخبار المؤسسة
     </a>
 
+
     @if (isLoggedIn()) {
-      @if (isAdminOrWriterOrSuper()) {
-        <a routerLink="/dashboard" class="block hover:bg-gray-100 rounded py-2 px-3">
-          لوحة التحكم
-        </a>
-      }
       @if (!isAdminOrWriterOrSuper()) {
-        <a routerLink="/request" class="block hover:bg-gray-100 rounded py-2 px-3">
+        <a routerLink="/request" class="block hover:bg-gray-100 rounded py-2 flex items-center">
+          <mat-icon class="ml-1 !text-[20px] !w-[20px] !h-[20px]">description</mat-icon>
           تقديم طلب
         </a>
       }
-      <button mat-raised-button (click)="showDialog()" class="!bg-gradient-to-r !from-emerald-400 !to-cyan-400 !text-white">
-        <mat-icon class="!text-white">volunteer_activism</mat-icon>
+      <div class="flex items-center">
+        <p-menu #userMenu [model]="items" [popup]="true" [appendTo]="'body'"></p-menu>
+        <app-avatar [user]="user.pic" [userMenu]="userMenu"></app-avatar>
+      </div>
+      <button mat-raised-button (click)="showDialog()"
+              class="!bg-gradient-to-r !from-emerald-400 !to-cyan-400 !text-white">
+        <mat-icon class="!text-white !text-[20px] !w-[20px] !h-[20px]">volunteer_activism</mat-icon>
         تبرع الآن
       </button>
+
     }
 
     <ng-container *ngIf="!isLoggedIn()">
       <a routerLink="/login">
-        <button class="!bg-salamgreen !text-white !w-full" mat-button> تسجيل الدخول
+        <button class="!bg-salamgreen !text-white !w-full flex items-center justify-center" mat-button>
+          <mat-icon class="!text-white ml-1 !text-[20px] !w-[20px] !h-[20px]">login</mat-icon>
+          تسجيل الدخول
         </button>
       </a>
       <a routerLink="/register">
-
-        <button mat-button class="!bg-salamblue !text-white !w-full"> إنشاء حساب
+        <button mat-button class="!bg-salamblue !text-white !w-full flex items-center justify-center">
+          <mat-icon class="!text-white ml-1 !text-[20px] !w-[20px] !h-[20px]">person_add</mat-icon>
+          إنشاء حساب
         </button>
       </a>
     </ng-container>

@@ -1,0 +1,118 @@
+<div class="min-h-[calc(100vh-80px)] bg-gradient-to-b from-gray-500 via-white to-white flex items-center justify-center sm:pt-10"
+     dir="rtl">
+  <div class="bg-white shadow-2xl sm:rounded-lg w-full max-w-4xl p-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-1">إعدادات الحساب</h2>
+    <p class="text-sm text-gray-500 mb-6">تعديل الاسم، الصورة الشخصية، وغيرها من المعلومات</p>
+
+    <div *ngIf="successMessage" class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8">
+        <div class="flex flex-col items-center gap-2">
+          <app-avatar [user]="previewUrl || user.pic" size="xlarge"></app-avatar>
+          <button *ngIf="previewUrl || user?.pic" type="button" (click)="removeProfilePicture()"
+                  class="text-red-600 text-xs hover:underline">إزالة الصورة
+          </button>
+
+          <label class="block mt-3">
+            <input type="file" hidden accept="image/*" (change)="onFileSelected($event)">
+            <span class="cursor-pointer text-white bg-gray-800 hover:bg-gray-900 px-4 py-2 rounded text-sm shadow">تغيير الصورة</span>
+          </label>
+          <button *ngIf="currentUser?.pic" type="button" (click)="removeProfilePicture()"
+                  class="text-red-600 text-xs hover:underline">إزالة الصورة
+          </button>
+        </div>
+
+        <div class="flex-1 space-y-4 w-full">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">تغيير المعلومات الشخصية</h3>
+
+          <!-- Name -->
+          <mat-form-field appearance="outline" class="w-full !mt-2">
+            <mat-label>الاسم الكامل</mat-label>
+            <input matInput formControlName="name" required>
+            <button mat-icon-button matSuffix type="button" (click)="toggleNameEditable()">
+              <mat-icon>{{ isNameEditable ? 'close' : 'edit' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="profileForm.get('name')?.hasError('required')">الاسم مطلوب</mat-error>
+          </mat-form-field>
+
+          <!-- Email -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>البريد الإلكتروني</mat-label>
+            <input matInput type="email" formControlName="email" required>
+            <button mat-icon-button matSuffix type="button" (click)="toggleEmailEditable()">
+              <mat-icon>{{ isEmailEditable ? 'close' : 'edit' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="profileForm.get('email')?.invalid">يرجى إدخال بريد إلكتروني صحيح</mat-error>
+          </mat-form-field>
+
+          <!-- Birth Date -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>تاريخ الميلاد</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birth_date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <button mat-icon-button matSuffix type="button" (click)="toggleBirthDateEditable()">
+              <mat-icon>{{ isBirthDateEditable ? 'close' : 'edit' }}</mat-icon>
+            </button>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="profileForm.get('birth_date')?.invalid">تاريخ الميلاد غير صحيح</mat-error>
+          </mat-form-field>
+
+          <!-- Password Section -->
+          <div class="border-t border-gray-200 pt-4 mt-4">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">تغيير كلمة المرور</h3>
+
+            <mat-form-field appearance="outline" class="w-full !mt-2">
+              <mat-label>كلمة المرور الحالية</mat-label>
+              <input matInput type="password" formControlName="current_password">
+              <mat-error *ngIf="profileForm.get('current_password')?.invalid">كلمة المرور الحالية مطلوبة لتغيير كلمة
+                المرور
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>كلمة المرور الجديدة</mat-label>
+              <input matInput type="password" formControlName="new_password">
+              <mat-error *ngIf="profileForm.get('new_password')?.invalid">كلمة المرور يجب أن تكون على الأقل 6 أحرف
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>تأكيد كلمة المرور الجديدة</mat-label>
+              <input matInput type="password" formControlName="password_confirmation">
+              <mat-error *ngIf="profileForm.get('password_confirmation')?.hasError('mismatch')">كلمة المرور غير
+                متطابقة
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="mt-6 text-sm">
+            <button type="button" (click)="openDeleteAccountDialog()" class="text-red-600 hover:underline">حذف الحساب
+            </button>
+            <p class="text-xs text-gray-500 mt-1">سيتم إرسال بريد إلكتروني لتأكيد قرارك. جميع البيانات المرتبطة بحسابك
+              سيتم حذفها بشكل دائم.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-8 flex justify-end gap-4">
+        <button mat-button type="button" (click)="onCancel()"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded shadow-sm">إلغاء
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid || isLoading">
+          <ng-container *ngIf="!isLoading">حفظ التغييرات</ng-container>
+          <ng-container *ngIf="isLoading">
+            <mat-spinner [diameter]="20" class="mr-2" style="display: inline-block;"></mat-spinner>
+            جاري الحفظ...
+          </ng-container>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

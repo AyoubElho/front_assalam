@@ -132,4 +132,21 @@ export class AuthService {
     }
   }
 
+
+  public updateProfile(formData: FormData) {
+    const token = this.getAuthToken();
+
+    if (token) {
+      return axios.post(`${API_BASE_URL}/users/update-profile`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    } else {
+      return Promise.reject('No token found');
+    }
+  }
+
+
 }

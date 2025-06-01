@@ -77,6 +77,6 @@ export class DistiuteCreateComponent {
 
 
   goBack() {
-    console.log('Going back');
+    this.router.navigate(['/dashboard/distitutes']);
   }
 }

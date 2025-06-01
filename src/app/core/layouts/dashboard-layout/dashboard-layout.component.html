@@ -8,7 +8,7 @@
     </div>
 
     <div class="flex items-center">
-      <p-chip dir="ltr" label="{{this.role?.toString()?.replaceAll('_',' ')}}" (click)="menu.toggle($event)" image="{{user.pic}}" alt=""/>
+      <app-avatar [user]="user" (click)="menu.toggle($event)" size="large"></app-avatar>
       <p-menu #menu [model]="items" [popup]="true"/>
     </div>
   </mat-toolbar>

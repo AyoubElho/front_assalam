@@ -16,6 +16,7 @@ import {RequestService} from '../../services/service/RequestService';
 import {NgIf} from '@angular/common';
 import {NgxSpinnerComponent} from "ngx-spinner";
 import {Chip} from 'primeng/chip';
+import {AvatarComponent} from '../avatar-component/avatar-component.component';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -33,6 +34,7 @@ import {Chip} from 'primeng/chip';
     NgIf,
     NgxSpinnerComponent,
     Chip,
+    AvatarComponent,
   ],
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.css'

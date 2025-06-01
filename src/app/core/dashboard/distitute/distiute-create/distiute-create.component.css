@@ -1,7 +1,8 @@
 ::ng-deep .p-datepicker {
   width: 100% !important;
 }
-::ng-deep .back .p-button {
-  background: white !important;
+
+::ng-deep .p-button-text {
   color: black !important;
+  background: white !important;
 }
